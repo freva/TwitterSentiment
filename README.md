@@ -1,8 +1,8 @@
 # TwitterSentiment
 TMA4851 Big Data project - Group 1
 
-$ pip install -U nltk (?)
+$ pip install python-dateutil
 
-$ pip install -U textblob
+$ pip install textblob
 
-$ python -m textblob.download_corpora (?)
+$ pip install python
