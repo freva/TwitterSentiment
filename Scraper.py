@@ -18,7 +18,7 @@ class Scraper(object):
 				self.endID = input_file.read().strip()
 		except IOError, e:
 			with open('log.txt', 'a+') as f:
-				f.write("FAILED %s\n" %(e))
+				f.write("FAILED: %s\n" %(e))
 
 
 	def save_endid(self):
@@ -30,16 +30,20 @@ class Scraper(object):
 		self.load_endid()
 		placeID = self.twitter_search.getTwitterPlaceID("USA", "country")
 
-		for i in xrange(10):
-			#results = self.twitter_search.getTweets(self.query, placeID=placeID, end_id=self.endID)
-			results = self.twitter_search.getTweetsWithLocation(self.query, end_id=self.endID)
+		for i in xrange(20):
+			try:
+				#results = self.twitter_search.getTweets(self.query, placeID=placeID, end_id=self.endID)
+				results = self.twitter_search.getTweetsWithLocation(self.query, end_id=self.endID)
 
-			for tweet in results["tweets"]:
-				sent = TextBlob(tweet["text"])
+				for tweet in results["tweets"]:
+					sent = TextBlob(tweet["text"])
 
-				Tweet.objects.create(hashtag=self.query, created_at=tweet["datetime"], polarity=sent.polarity,
-					subjectivity=sent.subjectivity, lat=tweet["coordinates"][1], lng=tweet["coordinates"][0])
-			self.endID = results["low"]
+					Tweet.objects.create(hashtag=self.query, created_at=tweet["datetime"], polarity=sent.polarity,
+						subjectivity=sent.subjectivity, lat=tweet["coordinates"][1], lng=tweet["coordinates"][0])
+				self.endID = results["low"]
+			except Exception, e:
+				with open('log.txt', 'a+') as f:
+					f.write("FAILED: %s\n" %(e))
 		self.save_endid()
 
 
