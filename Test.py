@@ -17,4 +17,5 @@ for tweet in statuses:
     text = tweet["text"].encode('ascii',errors='ignore').replace('\n', ' ')
     score = TextBlob(text)
 
-    print tweet["user"]["id"], timestamp, score.polarity, score.subjectivity, text
+    if tweet["coordinates"] is not None and tweet["coordinates"]["coordinates"] != [0.0, 0.0]:
+        print tweet["user"]["id"], timestamp, score.polarity, score.subjectivity, text[:10], tweet["coordinates"]
