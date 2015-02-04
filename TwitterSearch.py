@@ -37,6 +37,7 @@ class TwitterSearch:
         search_results = self.TWITTER_API.search.tweets(q=query, lang='en', result_type='recent', count=100, since_id=start_id, max_id=end_id)
         statuses, results = search_results['statuses'], []
 
+        print query, end_id
         for tweet in statuses:
             twitterDatetime = dateutil.parser.parse(tweet["created_at"]).date()
             text = tweet["text"].encode('ascii', errors='ignore').replace('\n', ' ')

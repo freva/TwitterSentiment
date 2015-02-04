@@ -1,25 +1,25 @@
 from textblob import TextBlob
-from TwitterSearch import getTweets, getTwitterPlaceID
+from TwitterSearch import TwitterSearch
 import db
 from data.models import Tweet
-from datetime import datetime
-
 
 
 def main():
-    searchTag = "#obama"
-    placeID = getTwitterPlaceID("USA", "country")
+    twitter_api = TwitterSearch("val")
+    searchTag = "#superbowl"
+    placeID = twitter_api.getTwitterPlaceID("USA", "country")
 
     endid = ""
     for i in xrange(10):
-        results = getTweets(searchTag, placeID=placeID, end_id=endid)
+        results = twitter_api.getTweets(searchTag, placeID=placeID, end_id=endid)
 
         for tweet in results["tweets"]:
             sent = TextBlob(tweet["text"])
 
-            Tweet.objects.create(hashtag=searchTag, created_at=datetime.fromtimestamp(tweet["tweetTime"]), polarity=sent.polarity, subjectivity=sent.subjectivity, x=tweet["coordinates"][0], y=tweet["coordinates"][1])
+            Tweet.objects.create(hashtag=searchTag, created_at=tweet["datetime"], polarity=sent.polarity, subjectivity=sent.subjectivity, lat=tweet["coordinates"][1], lng=tweet["coordinates"][0])
         endid = results["low"]
         print results
 
-print Tweet.objects.all().count()
+main()
+
 
