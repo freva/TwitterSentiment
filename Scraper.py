@@ -65,15 +65,25 @@ class Scraper(object):
 		self.save_endid()
 
 def get_user(option):
-	if option == "1":
+	if option == 1:
 		OAUTH_TOKEN = "2321486359-9o9S5F095e9wOcfLF2j9BEVgpCilaT4tJxnAkUJ"
 		OAUTH_TOKEN_SECRET = "FPrE6SifIPOc4Cv4MuiwpKIE2myFmRHKZwPHmwVjtf90t"
 		CONSUMER_KEY = "03wJEEb99nygHwMQWoGeEgiwL"
 		CONSUMER_SECRET = "9u2c2K4V1PLS8eYfjnnFefOIVWhGguztSldNASKYyXcBPSINyL"
+	elif option == 2:
+		OAUTH_TOKEN = "1149321716-4lUNiaF0bDLieONt2ElPRaoC6n0a9qELFQmzxnL"
+		OAUTH_TOKEN_SECRET = "IC0pwj9GoWjVvYp4rHjYesrgrYpgSFloaNFmMeVNPb4"
+		CONSUMER_KEY = "Hff8xWsJiMpfjoIsUXeWw"
+		CONSUMER_SECRET = "VbUQ3QKrGj8kimKrNo9ZNbioh5VxPMx4KdH8uB7h9cg"
+
 
 	return CONSUMER_KEY, CONSUMER_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET
 
 def main(option):
+	for i in [1, 2]:
+		scrape(i)
+
+def scrape(option):
 	CONSUMER_KEY, CONSUMER_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET = get_user(option)
 	scraper = Scraper(
 			CONSUMER_KEY,
@@ -86,4 +96,4 @@ def main(option):
 	scraper.run()
 
 if __name__ == "__main__":
-	main(sys.argv[1])
+	main()
