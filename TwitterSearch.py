@@ -15,13 +15,11 @@ def getTweets(query, placeID=None, start_id='', end_id=''):
     search_results = twitter_api.search.tweets(q=query, lang='en', result_type='recent', count=100, since_id=start_id, max_id=end_id)
     statuses, results = search_results['statuses'], []
 
-    print len(statuses),
     for tweet in statuses:
         timestamp = int(time.mktime(dateutil.parser.parse(tweet["created_at"]).timetuple()))
         text = tweet["text"].encode('ascii', errors='ignore').replace('\n', ' ')
 
         results.append({"id": tweet["id"], "tweetTime": timestamp, "text": text, "coordinates": tweet["coordinates"]["coordinates"]})
-    print len(results)
     return {"low": statuses[-1]["id"], "high": statuses[0]["id"], "tweets": results}
 
 
