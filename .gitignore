@@ -49,6 +49,9 @@ coverage.xml
 *.log
 db.sqlite3
 migrations/
+endid.txt
+log.txt
+temp.py
 
 # Sphinx documentation
 docs/_build/
