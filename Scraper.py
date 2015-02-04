@@ -29,7 +29,8 @@ class Scraper(object):
         placeID = self.twitter_search.getTwitterPlaceID("USA", "country")
 
         for i in xrange(10):
-            results = self.twitter_search.getTweets(self.query, placeID=placeID, end_id=self.endID)
+            #results = self.twitter_search.getTweets(self.query, placeID=placeID, end_id=self.endID)
+            results = self.twitter_search.getTweetsWithLocation(self.query, end_id=self.endID)
 
             for tweet in results["tweets"]:
                 sent = TextBlob(tweet["text"])
