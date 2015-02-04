@@ -26,6 +26,9 @@ $ pip install Django==1.7.4
 	Tweet.objects.filter(polarity__gte=1.1).count()
 	Tweet.objects.filter(created_at=datetime.today()).delete()
 
+## Div
+http://kartograph.org/showcase/animated-symbols/
+
 ## Twitter API:
 
 ![API overview](http://mike.teczno.com/img/raffi-krikorian-map-of-a-tweet.png)
