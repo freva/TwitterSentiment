@@ -16,7 +16,7 @@ class Scraper(object):
 		try:
 			with open('state.txt', 'r') as input_file:
 				self.endID = input_file.read().strip()
-		except IOError:
+		except IOError, e:
 			with open('log.txt', 'a+') as f:
 				f.write("FAILED %s\n" %(e))
 
