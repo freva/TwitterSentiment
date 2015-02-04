@@ -12,6 +12,7 @@ $ pip install Django==1.7.4
 ## Database operations
 
     Tweet(models.Model):
+    	hashtag = models.CharField(max_length=50, blank=True, null=True)
 		created_at = models.DateTimeField()
 		subjectivity = models.DecimalField(max_digits=5, decimal_places=3)
 		polarity = models.DecimalField(max_digits=5, decimal_places=3)
