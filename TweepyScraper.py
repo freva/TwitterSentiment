@@ -44,6 +44,11 @@ class Worker(object):
 			ACCESS_TOKEN_SECRET	= "IC0pwj9GoWjVvYp4rHjYesrgrYpgSFloaNFmMeVNPb4"
 			CONSUMER_KEY       	= "Hff8xWsJiMpfjoIsUXeWw"
 			CONSUMER_SECRET    	= "VbUQ3QKrGj8kimKrNo9ZNbioh5VxPMx4KdH8uB7h9cg"
+		elif user == "jon":
+			ACCESS_TOKEN        = "2321486359-9o9S5F095e9wOcfLF2j9BEVgpCilaT4tJxnAkUJ"
+			ACCESS_TOKEN_SECRET = "FPrE6SifIPOc4Cv4MuiwpKIE2myFmRHKZwPHmwVjtf90t"
+			CONSUMER_KEY        = "03wJEEb99nygHwMQWoGeEgiwL"
+			CONSUMER_SECRET     = "9u2c2K4V1PLS8eYfjnnFefOIVWhGguztSldNASKYyXcBPSINyL"
 		else:
 			raise ValueError("Invalid username")
 		return ACCESS_TOKEN, ACCESS_TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET
