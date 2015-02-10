@@ -3,6 +3,7 @@ from data.models import Tweet
 from textblob import TextBlob
 from TwitterSearch import TwitterSearch
 from time import time
+import socket
 
 
 class Scraper(object):
@@ -10,6 +11,15 @@ class Scraper(object):
 		self.twitter_search = twitterSearch
 		self.query = query
 		self.endID = ""
+		self.set_files()
+
+	def set_files(self):
+		if '3883' in socket.gethostname():
+			log_file = '/root/TwitterSentiment/log.txt'
+			state_file = '/root/TwitterSentiment/state.txt'
+		else:
+			log_file = 'log.txt'
+			state_file = 'state.txt'
 
 
 	def load_endid(self):
