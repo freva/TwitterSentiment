@@ -48,7 +48,7 @@ class Worker(object):
 			ACCESS_TOKEN_SECRET = "FPrE6SifIPOc4Cv4MuiwpKIE2myFmRHKZwPHmwVjtf90t"
 			CONSUMER_KEY        = "03wJEEb99nygHwMQWoGeEgiwL"
 			CONSUMER_SECRET     = "9u2c2K4V1PLS8eYfjnnFefOIVWhGguztSldNASKYyXcBPSINyL"
-        elif option == "val":
+		elif user == "val":
 			ACCESS_TOKEN 		= "3014396297-AuZwIXKpP9oosXx4XSpbrQ8Pu64QFTdoDVAH9TU"
 			ACCESS_TOKEN_SECRET = "NLWiducniEd2y9lgDFQH9LUg3Lwb6caur0RKmwMcPwCWF"
 			CONSUMER_KEY        = "DtujIqtFFl9Bg18b2WeMTFPwd"
