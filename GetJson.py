@@ -6,14 +6,14 @@ from django.db.models import Q
 
 def get_tweets():
 	return Tweet.objects.filter(
-			Q(hashtag="fiftyshadesofgrey") |
-			Q(hashtag="50shades") |
-			Q(hashtag="50shadesofgrey") |
-			Q(hashtag="fsog") |
-			Q(hashtag="fiftyshades") |
-			Q(hashtag="mrgreywillseeyounow") |
-			Q(hashtag="mrgrey") |
-			Q(hashtag="fiftyshadesofgreymovie")
+			Q(hashtag="#fiftyshadesofgrey") |
+			Q(hashtag="#50shades") |
+			Q(hashtag="#50shadesofgrey") |
+			Q(hashtag="#fsog") |
+			Q(hashtag="#fiftyshades") |
+			Q(hashtag="#mrgreywillseeyounow") |
+			Q(hashtag="#mrgrey") |
+			Q(hashtag="#fiftyshadesofgreymovie")
 		)
 
 def main():
