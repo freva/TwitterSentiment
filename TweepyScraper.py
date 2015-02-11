@@ -102,7 +102,6 @@ class Worker(object):
 		fetched = 0
 		self.load_since_id()
 		tweets = self.fetch_tweets()
-		x = Tweet.objects.all().count()
 		self.log("Found %s tweets" %(len(tweets)))
 		for t in tweets:
 			score = TextBlob(t.text)
@@ -131,7 +130,7 @@ class Worker(object):
 			except IntegrityError:
 				continue
 
-		self.log("Saved %s tweets" %(Tweet.objects.all().count() - x))
+		self.log("Saved %s tweets" %(fetched))
 		self.save_since_id()
 		return fetched
 
