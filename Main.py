@@ -1,6 +1,6 @@
+import db
 from textblob import TextBlob
 from TwitterSearch import TwitterSearch
-import db
 from data.models import Tweet
 
 
@@ -20,6 +20,7 @@ def main():
         endid = results["low"]
         print results
 
-main()
+#main()
 
-
+Tweet.objects.all().delete()
+print Tweet.objects.all().count()

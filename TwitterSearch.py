@@ -46,20 +46,6 @@ class TwitterSearch:
         return {"low": statuses[-1]["id"], "high": statuses[0]["id"], "tweets": results}
 
 
-    def getTweetsWithLocation(self, query, start_id='', end_id=''):
-        search_results = self.TWITTER_API.search.tweets(q=query, lang='en', result_type='recent', count=100, since_id=start_id, max_id=end_id)
-        statuses, results = search_results['statuses'], []
-
-        for tweet in statuses:
-            twitterDatetime = dateutil.parser.parse(tweet["created_at"]).date()
-            text = tweet["text"].encode('ascii', errors='ignore').replace('\n', ' ')
-
-            if tweet["coordinates"] is not None and tweet["coordinates"]["coordinates"] != [0.0, 0.0]:
-                results.append({"id": tweet["id"], "datetime": twitterDatetime, "text": text, "coordinates": tweet["coordinates"]["coordinates"]})
-        return {"low": statuses[-1]["id"], "high": statuses[0]["id"], "tweets": results}
-
-
-
     def getTwitterPlaceID(self, query, granularity):
         places = ["poi", "neighborhood", "city", "admin", "country"]
         if granularity not in places:
