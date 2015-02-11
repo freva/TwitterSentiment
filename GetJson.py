@@ -4,22 +4,24 @@ import json
 import socket
 from django.db.models import Q
 
-def get_tweets():
-	return Tweet.objects.filter(
-			Q(hashtag="#fiftyshadesofgrey") |
-			Q(hashtag="#50shades") |
-			Q(hashtag="#50shadesofgrey") |
-			Q(hashtag="#fsog") |
-			Q(hashtag="#fiftyshades") |
-			Q(hashtag="#mrgreywillseeyounow") |
-			Q(hashtag="#mrgrey") |
-			Q(hashtag="#fiftyshadesofgreymovie")
-		)
+def get_tweets(tag):
+	return Tweet.objects.filter(hashtag="#%s" %(tag))
 
 def main():
 	dictionary = []
-	for tweet in get_tweets():
-		dictionary.append({"lat":float(tweet.lat), "lng":float(tweet.lng), "polarity":float(tweet.polarity)})
+	hashtags = [
+		"fiftyshadesofgrey",
+		"50shades",
+		"50shadesofgrey",
+		"fsog",
+		"fiftyshades",
+		"mrgreywillseeyounow",
+		"mrgrey",
+		"fiftyshadesofgreymovie"
+	]
+	for tag in hashtags:
+		for tweet in get_tweets(tag):
+			dictionary.append({"lat":float(tweet.lat), "lng":float(tweet.lng), "polarity":float(tweet.polarity)})
 
 	if '3883' in socket.gethostname():
 		with open("/root/TwitterSentiment/map.json", "w+") as output_file:
@@ -30,3 +32,5 @@ def main():
 
 if __name__ == "__main__":
 	main()
+
+# ["#fiftyshadesofgrey", "#50shades", "#50shadesofgrey", "#fsog", "#fiftyshades", "#mrgreywillseeyounow", "#mrgrey", "#fiftyshadesofgreymovie"]
