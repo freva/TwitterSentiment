@@ -2,10 +2,10 @@ import db
 from data.models import Tweet
 import json
 import socket
-from django.db.models import Q
 
 def get_tweets(tag):
-	return Tweet.objects.filter(hashtag="#%s" %(tag))
+	tag = "#%s" %(tag)
+	return Tweet.objects.filter(hashtag=tag)
 
 def main():
 	dictionary = []
@@ -32,5 +32,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
-# ["#fiftyshadesofgrey", "#50shades", "#50shadesofgrey", "#fsog", "#fiftyshades", "#mrgreywillseeyounow", "#mrgrey", "#fiftyshadesofgreymovie"]
