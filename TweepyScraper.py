@@ -103,6 +103,7 @@ class Worker(object):
 		self.load_since_id()
 		tweets = self.fetch_tweets()
 		self.log("Found %s tweets" %(len(tweets)))
+		tag = self.query.replace("#", "").split()[0]
 		for t in tweets:
 			score = TextBlob(t.text)
 			self.since_id = t.id
@@ -110,7 +111,7 @@ class Worker(object):
 				tweet = Tweet(
 					tweet_id=t.id,
 					text=t.text,
-					hashtag=self.query,
+					hashtag=tag,
 					created_at=t.created_at,
 					subjectivity=score.subjectivity,
 					polarity=score.polarity,
