@@ -52,8 +52,8 @@ class JsonConverter(object):
 			print "Tag: %s" %(tag)
 			for t in self.get_tweets(tag):
 				self.insert_to_dictonary(
-						round(float(t.lat), 1),
-						round(float(t.lng), 1),
+						round(float(t.lat), 0),
+						round(float(t.lng), 0),
 						float(t.polarity),
 					)
 
@@ -79,15 +79,20 @@ class JsonConverter(object):
 		"""
 		Generator returning hashtags
 		"""
+		# hashtags = [
+		# 	"fiftyshadesofgrey",
+		# 	"50shades",
+		# 	"50shadesofgrey",
+		# 	"fsog",
+		# 	"fiftyshades",
+		# 	"mrgreywillseeyounow",
+		# 	"mrgrey",
+		# 	"fiftyshadesofgreymovie"
+		# ]
 		hashtags = [
-			"fiftyshadesofgrey",
-			"50shades",
-			"50shadesofgrey",
-			"fsog",
-			"fiftyshades",
-			"mrgreywillseeyounow",
-			"mrgrey",
-			"fiftyshadesofgreymovie"
+			"obama",
+			"barackobama",
+			"obamacare"
 		]
 		for h in hashtags:
 			yield h
