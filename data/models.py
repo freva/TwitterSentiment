@@ -3,20 +3,18 @@ from django.db import models
 class Tweet(models.Model):
 	tweet_id = models.CharField(max_length=200, unique=True)
 	hashtag = models.CharField(max_length=50, blank=True, null=True)
-	text = models.CharField(max_length=200, blank=True, null=True)
-	created_at = models.DateTimeField()
+	created_at = models.DateTimeField(blank=True, null=True)
 	retweet_count = models.IntegerField(blank=True, null=True, default=0)
+	favorite_count = models.IntegerField(blank=True, null=True, default=0)
+	lat = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=3)
+	lng = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=3)
+	state = models.CharField(max_length=3, blank=True, null=True)
+	city = models.CharField(max_length=50, blank=True, null=True)
 	subjectivity = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=3)
 	polarity = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=3)
-	lat = models.DecimalField(blank=True, null=True, max_digits=18, decimal_places=15)
-	lng = models.DecimalField(blank=True, null=True, max_digits=18, decimal_places=15)
-	country = models.CharField(blank=True, null=True, max_length=200)
-	place_type = models.CharField(blank=True, null=True, max_length=200)
-	full_name = models.CharField(blank=True, null=True, max_length=200)
-	place_id = models.CharField(blank=True, null=True, max_length=200)
+
+	def __unicode__(self):
+		return "#%s" %(self.hashtag)
 
 	def get_coordinates(self):
 		return "%s, %s" %(self.lat, self.lng)
-
-	def __unicode__(self):
-		return self.hashtag
