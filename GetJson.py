@@ -4,7 +4,6 @@ import json
 import socket
 
 def get_tweets(tag):
-	tag = "#%s" %(tag)
 	return Tweet.objects.filter(hashtag=tag)
 
 def main():
@@ -31,4 +30,4 @@ def main():
 			json.dump(dictionary, output_file)
 
 if __name__ == "__main__":
-	main()
+	main()m
