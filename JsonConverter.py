@@ -40,11 +40,12 @@ class JsonConverter(object):
 		Saves entities to json file
 		"""
 		for tag in self.get_hashtags():
-			for tweet in self.get_tweets(tag):
+			print "Tag: %s" %(tag)
+			for t in self.get_tweets(tag):
 				self.insert_to_dictonary(
-						round(float(tweet.lat), 1),
-						round(float(tweet.lng), 1),
-						float(tweet.polarity),
+						round(float(t.lat), 1),
+						round(float(t.lng), 1),
+						float(t.polarity),
 					)
 
 		self.dump_to_file()
@@ -58,7 +59,7 @@ class JsonConverter(object):
 		else:
 			self.filename = "map.json"
 
-	def get_tweets(hashtag):
+	def get_tweets(self, hashtag):
 		"""
 		Returns tweets for hashtag
 		"""
