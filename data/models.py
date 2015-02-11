@@ -5,6 +5,7 @@ class Tweet(models.Model):
 	hashtag = models.CharField(max_length=50, blank=True, null=True)
 	text = models.CharField(max_length=200, blank=True, null=True)
 	created_at = models.DateTimeField()
+	retweet_count = models.IntegerField(blank=True, null=True, default=0)
 	subjectivity = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=3)
 	polarity = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=3)
 	lat = models.DecimalField(blank=True, null=True, max_digits=18, decimal_places=15)

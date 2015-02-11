@@ -79,7 +79,7 @@ class Worker(object):
 					q=self.query,
 					lang=self.lang,
 					count=self.count,
-				)
+				
 
 	def save_since_id(self):
 		print "Saving since id"
