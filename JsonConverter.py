@@ -23,6 +23,7 @@ class JsonConverter(object):
 		for t in self.dictionary:
 			if t['lat'] == lat and t['lng'] == lng:
 				t['count'] += 1
+				t['polarity'].append(polarity)
 				in_dictionary = True
 				break
 		if not in_dictionary:
@@ -30,10 +31,18 @@ class JsonConverter(object):
 					{
 						"lat":lat,
 						"lng":lng,
-						"polarity":polarity,
+						"polarity":[polarity],
 						"count":1
 					}
 				)
+
+	def calculate_polarity(self):
+		"""
+		Calculate average polarity
+		"""
+		for t in self.dictionary:
+			tot_polarity = sum(t['polarity'])
+			t['polarity'] = tot_polarity / t['count']
 
 	def run(self):
 		"""
@@ -48,6 +57,7 @@ class JsonConverter(object):
 						float(t.polarity),
 					)
 
+		self.calculate_polarity()
 		self.dump_to_file()
 
 	def set_filename(self):
