@@ -3,7 +3,7 @@ from data.models import Tweet
 import json
 import socket
 
-def get_tweets(tag):
+def get_tweets(tag):	
 	return Tweet.objects.filter(hashtag=tag)
 
 def main():
@@ -30,4 +30,4 @@ def main():
 			json.dump(dictionary, output_file)
 
 if __name__ == "__main__":
-	main()m
+	main()
