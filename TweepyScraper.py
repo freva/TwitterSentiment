@@ -7,21 +7,22 @@ from data.models import Tweet
 from time import time
 from datetime import datetime
 
-def get_file_names():
-	"""
-	Returns paths to file depending on host
-	"""
-	if '3883' in socket.gethostname():
-		log_file = '/root/TwitterSentiment/log.txt'
-	else:
-		log_file = 'log.txt'
-	return log_file
-
 class Worker(object):
 	def __init__(self):
 		self.lang = 'en'
 		self.count = 100
-		self.log_file = get_file_names()
+		self.log_file = self.configure_filename("log")
+
+	def configure_filename(self, filename):
+		"""
+		Configures filename depending on host.
+
+		:param filename: filename without ending (e.g. .txt)
+		"""
+		if '3883' in socket.gethostname():
+			return "/root/TwitterSentiment/%s.txt" %(filename)
+		else:
+			return "%s.txt" %(filename)
 
 	def set_query(self, query):
 		"""
@@ -31,11 +32,11 @@ class Worker(object):
 		"""
 		self.query = query
 
-	def get_limit_status(self):	
+	def limit_not_reached(self):	
 		"""
-		Returns the limit status as integer
+		Returns true if limit is not reached
 		"""
-		return self.api.rate_limit_status()['resources']['search']['/search/tweets']['remaining']
+		return self.api.rate_limit_status()['resources']['search']['/search/tweets']['remaining'] > 10
 
 	def get_keys(self, user):
 		if user == "oyv":
@@ -175,7 +176,7 @@ class Worker(object):
 	def run(self):
 		for user in self.get_users():
 			self.log("Using Twitter with user: %s" %(user))
-			while self.get_limit_status() > 0:
+			while self.limit_not_reached():
 				for hashtag in self.get_hashtags():
 					self.set_query(hashtag)
 					fetched = 100
