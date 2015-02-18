@@ -9,7 +9,7 @@ class Tweet(models.Model):
 	favorite_count = models.IntegerField(blank=True, null=True, default=0)
 	lat = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=3)
 	lng = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=3)
-	state = models.CharField(max_length=3, blank=True, null=True)
+	state = models.CharField(max_length=10, blank=True, null=True)
 	city = models.CharField(max_length=50, blank=True, null=True)
 	subjectivity = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=3)
 	polarity = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=3)
