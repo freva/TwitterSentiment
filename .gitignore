@@ -4,6 +4,11 @@ __pycache__/
 
 # C extensions
 *.so
+venv
+*.pyc
+staticfiles
+.env
+
 
 # Distribution / packaging
 .Python
