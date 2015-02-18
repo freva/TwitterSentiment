@@ -9,6 +9,7 @@ class JsonConverter(object):
 		"""
 		self.set_filename()
 		self.dictionary = []
+		self.hashtag = ""
 
 	def insert_to_dictonary(self, lat, lng, polarity):
 		"""
@@ -57,7 +58,6 @@ class JsonConverter(object):
 					)
 
 		self.calculate_polarity()
-		self.dump_to_file()
 
 	def set_filename(self):
 		"""
@@ -74,34 +74,20 @@ class JsonConverter(object):
 		"""
 		return Tweet.objects.filter(hashtag=hashtag)
 
+	def set_hashtag(self, hashtag):
+		self.hashtag = hashtag
+
 	def get_hashtags(self):
 		"""
 		Generator returning hashtags
 		"""
-		# hashtags = [
-		# 	"fiftyshadesofgrey",
-		# 	"50shades",
-		# 	"50shadesofgrey",
-		# 	"fsog",
-		# 	"fiftyshades",
-		# 	"mrgreywillseeyounow",
-		# 	"mrgrey",
-		# 	"fiftyshadesofgreymovie"
-		# ]
-		hashtags = [
-			"obama",
-			"barackobama",
-			"obamacare"
-		]
-		for h in hashtags:
-			yield h
+		return self.hashtag
 
-	def dump_to_file(self):
+	def get_dictionary(self):
 		"""
 		Writes the dictionary to json file
 		"""
-		with open(self.filename, "w+") as output_file:
-			json.dump(self.dictionary, output_file)
+		return self.dictionary
 
 def main():
 	"""
