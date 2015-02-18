@@ -1,1 +1,75 @@
-<h1>Hallo</h1>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Animated Symbols</title>
+
+	<link rel="stylesheet" type="text/css" href="styles/reset.css">
+	<link rel="stylesheet" type="text/css" href="styles/main.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="js/raphael-2.1.0.min.js"></script>
+	<script type="text/javascript" src="js/kartograph.js"></script>
+	<script type="text/javascript" src="js/chroma.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+	<div id="sidebar">
+		<h1>Tittel</h1>
+		
+		<input type="text" name="search" placeholder="#Hashtag">
+		<input type="submit" value="Search">
+	</div>
+
+	
+	<script type="text/javascript">
+   $(function() {
+      var map, c, scale, updateMap, symbols, key = 'polarity', maxRad = 8;
+
+      c = $('#map');
+      c.height(c.width()*.65);
+
+      map = window.m = kartograph.map('#map');
+      map.loadMap('display/map-usa.svg', function() {
+         map.addLayer('usa', {
+            styles: {
+               fill: '#dfdcdc',
+               stroke: '#fff'
+            }
+         });
+
+         $.getJSON('map.json', function(crimeCities) {
+            scale = kartograph.scale.linear(crimeCities, key);
+            colscale = chroma.scale(["#CA0300", "#E16519", "#CACE17", "#388C04", "#047331"]);
+
+            function symbolAttrs(d) {
+               return {
+                  r: Math.log(scale(d["count"]+2))*maxRad,
+                  stroke: '#fff',
+                  'stroke-width': scale(d[key])*1,
+                  fill: colscale(scale(d[key])),
+                  'fill-opacity': 0.5
+               };
+            }
+
+            symbols = map.addSymbols({
+               type: kartograph.Bubble,
+               data: crimeCities,
+               location: function(d) { return [d.lng, d.lat] },
+               attrs: symbolAttrs,
+               title: function(d) { return 'Num: ' + d.count; }
+            });
+         });
+      });
+   });
+	</script>
+
+	<div style="position:relative">
+		<div id="map"></div>
+	</div>
+</div>
+
+</body>
+</html>
