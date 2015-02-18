@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from TwitterSentiment.frontpage.models import Tweet
+from TwitterSentiment.scraper.models import Tweet
 import json
 from django.http import HttpResponse
 from .JsonConverter import JsonConverter
