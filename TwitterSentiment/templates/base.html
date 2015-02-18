@@ -22,6 +22,7 @@
 	<div id="sidebar">
 		<h1>Tittel</h1>
 		<form id="search-form">
+         {% csrf_token %}
    		<input type="text" name="search" placeholder="#Hashtag" id="search-field">
    		<input type="submit" value="Search" id="search-button">
       </form>
