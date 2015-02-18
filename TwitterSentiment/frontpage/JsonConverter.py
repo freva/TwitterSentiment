@@ -1,4 +1,4 @@
-from scraper.models import Tweet
+from TwitterSentiment.scraper.models import Tweet
 import json
 import socket
 
@@ -48,14 +48,13 @@ class JsonConverter(object):
 		"""
 		Saves entities to json file
 		"""
-		for tag in self.get_hashtags():
-			print "Tag: %s" %(tag)
-			for t in self.get_tweets(tag):
-				self.insert_to_dictonary(
-						round(float(t.lat), 0),
-						round(float(t.lng), 0),
-						float(t.polarity),
-					)
+		tag = self.get_hashtags()
+		for t in self.get_tweets(tag):
+			self.insert_to_dictonary(
+					round(float(t.lat), 0),
+					round(float(t.lng), 0),
+					float(t.polarity),
+				)
 
 		self.calculate_polarity()
 
