@@ -3,6 +3,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-	url(r'^', include('TwitterSentiment.landing.urls')),
+	url(r'^', include('TwitterSentiment.frontpage.urls')),
 	url(r'^admin/', include(admin.site.urls)),
 )
