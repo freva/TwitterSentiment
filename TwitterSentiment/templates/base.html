@@ -21,15 +21,19 @@
 <div class="container">
 	<div id="sidebar">
 		<h1>Tittel</h1>
-		
-		<input type="text" name="search" placeholder="#Hashtag" id="search-field">
-		<input type="submit" value="Search" id="search-button">
+		<form id="search-form">
+   		<input type="text" name="search" placeholder="#Hashtag" id="search-field">
+   		<input type="submit" value="Search" id="search-button">
+      </form>
 	</div>
 	
 	<script type="text/javascript">
    $(function() {
-      $("#search-button").on('click', function() {
-         ajaxGet('/get_hashtag/' + $('#search-field').val(), function(crimeCities) {
+      $("#search-form").on('submit', function(e) {
+         e.preventDefault();
+         ajaxPost('/get_hashtag/', {'hashtag':$('#search-field').val()}, function(crimeCities) {
+            crimeCities = crimeCities.results;
+            console.log(crimeCities);
             scale = kartograph.scale.linear(crimeCities, key);
             colscale = chroma.scale(["#CA0300", "#E16519", "#CACE17", "#388C04", "#047331"]);
 

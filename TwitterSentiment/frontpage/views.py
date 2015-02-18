@@ -1,3 +1,4 @@
+from django_ajax.decorators import ajax
 from django.shortcuts import render
 from TwitterSentiment.scraper.models import Tweet
 import json
@@ -8,9 +9,12 @@ def home(request):
 	return render(request, 'base.html',
 		{'tweets':Tweet.objects.all()})
 
-def get_hashtag(request, hashtag):
+@ajax
+def get_hashtag(request):
+	hashtag = request.POST.get('hashtag')
 	jsonconverter = JsonConverter()
 	jsonconverter.set_hashtag(hashtag)
 	jsonconverter.run()
 	results = jsonconverter.get_dictionary()
-	return HttpResponse(json.dumps(results), content_type='application/json')
+	return {'results':results}
+	# return HttpResponse(json.dumps(results), content_type='application/json')

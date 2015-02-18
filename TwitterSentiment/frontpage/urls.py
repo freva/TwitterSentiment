@@ -3,7 +3,7 @@ from django.conf import settings
 
 urlpatterns = patterns('TwitterSentiment.frontpage.views',
 	url(r'^$', 'home', name='home'),
-	url(r'^get_hashtag/(?P<hashtag>\w+)/$', 'get_hashtag', name='get_hashtag'),
+	url(r'^get_hashtag/$', 'get_hashtag', name='get_hashtag'),
 )
 
 urlpatterns += patterns('',

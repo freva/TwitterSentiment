@@ -41,12 +41,7 @@ TEMPLATE_DIRS = (
 ROOT_URLCONF = 'TwitterSentiment.urls'
 WSGI_APPLICATION = 'TwitterSentiment.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = {}
 DATABASES['default'] =  dj_database_url.config()
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -64,3 +59,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+try:
+    from TwitterSentiment.dev import *
+except ImportError:
+    pass
