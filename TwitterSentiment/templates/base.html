@@ -31,7 +31,6 @@
       var map, c, scale, updateMap, symbols, key = 'polarity', maxRad = 8;
 
       c = $('#map');
-      c.height(c.width()*.65);
 
       map = window.m = kartograph.map('#map');
       map.loadMap("{% static 'display/map-usa.svg' %}", function() {
