@@ -1,5 +1,4 @@
-import db
-from data.models import Tweet
+from scraper.models import Tweet
 import json
 import socket
 
