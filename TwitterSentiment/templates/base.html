@@ -29,7 +29,7 @@
 	<script type="text/javascript">
    $(function() {
       $("#search-button").on('click', function() {
-         ajaxPost('/get_hashtag/', {'hashtag':$('#search-field').val()}, function(cimeCities) {
+         ajaxGet('/get_hashtag/' + $('#search-field').val(), function(crimeCities) {
             scale = kartograph.scale.linear(crimeCities, key);
             colscale = chroma.scale(["#CA0300", "#E16519", "#CACE17", "#388C04", "#047331"]);
 
