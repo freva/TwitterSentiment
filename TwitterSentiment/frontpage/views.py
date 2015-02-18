@@ -6,8 +6,7 @@ from django.http import HttpResponse
 from .JsonConverter import JsonConverter
 
 def home(request):
-	return render(request, 'base.html',
-		{'tweets':Tweet.objects.all()})
+	return render(request, 'base.html')
 
 @ajax
 def get_hashtag(request):
@@ -16,5 +15,4 @@ def get_hashtag(request):
 	jsonconverter.set_hashtag(hashtag)
 	jsonconverter.run()
 	results = jsonconverter.get_dictionary()
-	return {'results':results}
-	# return HttpResponse(json.dumps(results), content_type='application/json')
+	return {'results': results}

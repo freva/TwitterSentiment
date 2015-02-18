@@ -29,12 +29,26 @@
 	</div>
 	
 	<script type="text/javascript">
-   $(function() {
-      $("#search-form").on('submit', function(e) {
+    $(function() {
+        var map, c, scale, updateMap, symbols, key = 'polarity', maxRad = 8;
+        c = $('#map');
+
+        map = window.m = kartograph.map('#map');
+        map.loadMap("{% static 'display/map-usa.svg' %}", function() {
+            map.addLayer('usa', {
+                styles: {
+                    fill: '#dfdcdc',
+                    stroke: '#fff'
+                }
+            });
+        });
+
+
+    $("#search-form").on('submit', function(e) {
          e.preventDefault();
-         ajaxPost('/get_hashtag/', {'hashtag':$('#search-field').val()}, function(crimeCities) {
-            crimeCities = crimeCities.results;
-            console.log(crimeCities);
+         ajaxPost('/get_hashtag/', {'hashtag':$('#search-field').val()}, function(response) {
+            map.removeSymbols();
+            crimeCities = response.results;
             scale = kartograph.scale.linear(crimeCities, key);
             colscale = chroma.scale(["#CA0300", "#E16519", "#CACE17", "#388C04", "#047331"]);
 
@@ -56,21 +70,6 @@
                title: function(d) { return 'Num: ' + d.count; }
             });
          });
-      });
-
-      var map, c, scale, updateMap, symbols, key = 'polarity', maxRad = 8;
-
-      c = $('#map');
-
-      map = window.m = kartograph.map('#map');
-      map.loadMap("{% static 'display/map-usa.svg' %}", function() {
-         map.addLayer('usa', {
-            styles: {
-               fill: '#dfdcdc',
-               stroke: '#fff'
-            }
-         });
-
       });
    });
 	</script>
