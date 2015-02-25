@@ -40,7 +40,8 @@ class JsonConverter(object):
 
         results = JsonConverter.doCluster(dictionary)
         results = [{"lat": t["lat"], "lng": t["lng"], "count": len(t["polarity"]),
-                    "polarity": sum(t["polarity"])/len(t["polarity"])}
+                    "polarity": sum(t["polarity"])/len(t["polarity"]),
+                    "variance": sum([i*i for i in t["polarity"]])/len(t["polarity"])}
                     for t in results]
         return results
 
