@@ -1,6 +1,22 @@
 from django.db import models
 
+class Tag(models.Model):
+	name = models.CharField(max_length=100)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	def __unicode__(self):
+		return "#%s" %(self.name)
+
+class Case(models.Model):
+	name = models.CharField(max_length=200)
+	created_at = models.DateTimeField(auto_now_add=True)
+	tags = models.ManyToManyField(Tag, blank=True, null=True)
+
+	def __unicode__(self):
+		return self.name
+
 class Tweet(models.Model):
+	tag = models.ForeignKey(Tag, blank=True, null=True, related_name="tags")
 	id = models.PositiveIntegerField(primary_key=True)
 	tweet_id = models.CharField(max_length=50, unique=True, blank=True, null=True)
 	hashtag = models.CharField(max_length=50, blank=True, null=True)
