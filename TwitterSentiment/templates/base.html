@@ -59,7 +59,7 @@
                 border: "#fff",
                 location: function(d) { return [d.lng, d.lat] },
                 values: function(d) { return [d.polarity, 1-d.polarity]; },
-                radius: function(d) { return scale(d["count"])*maxRad; },
+                radius: function(d) { return 3+scale(d["count"])*maxRad; },
                 title: function(d) { return 'Num: ' + d.count + ' | Polarity: ' + Math.round(d.polarity); }
             });
          });
