@@ -29,15 +29,18 @@ class JsonConverter(object):
     @staticmethod
     def overlap(obj1, obj2):
         dist = sqrt(pow(obj1["lat"]-obj2["lat"], 2) + pow(obj1["lng"]-obj2["lng"], 2))
-        return dist - 5*(log(len(obj1["polarity"])) + log(len(obj2["polarity"]))) < 0
+        return dist - 5*(log(len(obj1["polarity"])+2) + log(len(obj2["polarity"])+2)) < 0
 
 
     @staticmethod
     def searchHashtags(hashtags):
-        dictionary = [{"lat": t.lat, "lng": t.lng, "polarity": [t.polarity]}
+        dictionary = [{"lat": float(t.lat), "lng": float(t.lng), "polarity": [float(t.polarity)]}
                       for hashtag in hashtags
                       for t in Tweet.objects.filter(hashtag= hashtag)]
 
         results = JsonConverter.doCluster(dictionary)
+        results = [{"lat": t["lat"], "lng": t["lng"], "count": len(t["polarity"]),
+                    "polarity": sum(t["polarity"])/len(t["polarity"])}
+                    for t in results]
         return results
 
