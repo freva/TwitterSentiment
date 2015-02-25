@@ -185,7 +185,6 @@ CASES = {
 		"nhlducks",
 		"9inarow",
 		"4inarow",
-		"nhl",
 		"lakvsana",
 		"crashville",
 		"0inarow",
@@ -259,7 +258,7 @@ CASES = {
 		"edsheeran",
 		"sheeran",
 	],
-	'Chris Brown'[
+	'Chris Brown':[
 		"chrisbrown",
 	],
 	'Kanye West': [
