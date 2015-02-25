@@ -1,7 +1,7 @@
 import tweepy
 import time
 from textblob import TextBlob
-from scraper.models import Tweet
+from TwitterSentiment.scraper.models import Tweet
 
 class Streamer(tweepy.StreamListener):
 	def __init__(self, *args, **kwargs):
