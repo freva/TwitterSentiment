@@ -1,5 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
 from TwitterSentiment.scraper.models import *
+from time import time
+import logging
+logger = logging.getLogger(__name__)
 
 CASES = {
 	'Valentines Day': [
@@ -113,14 +116,19 @@ CASES = {
 
 class Command(BaseCommand):	
 	def handle(self, *args, **kwargs):
-		Tag.objects.all().delete()
-		Case.objects.all().delete()
+		start = time()
+		tags_start = Tag.objects.all().count()
+		cases_start = Case.objects.all().count()
 		for c in CASES:
 			self.load(c)
+		tags_end = Tag.objects.all().count()
+		cases_end = Case.objects.all().count()
+		logger.info('Loaded %s tags and %s cases in %s seconds' %(tags_end - tags_start, cases_end - cases_start, round(time() - start, 1)))
 
 	def load(self, c):
-		case = Case.objects.create(name=c)
+		case, created = Case.objects.get_or_create(name=c)
 		for t in CASES[c]:
-			tag = Tag.objects.create(name=t)
-			case.tags.add(tag)
+			if not Tag.objects.filter(name__iexact=t).exists():
+				tag = Tag.objects.create(name=t)
+				case.tags.add(tag)
 		case.save()
