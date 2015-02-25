@@ -30,7 +30,7 @@
 	
 	<script type="text/javascript">
     $(function() {
-        var map, c, scale, updateMap, symbols, key = 'polarity', maxRad = 4;
+        var map, c, scale, updateMap, symbols, maxRad = 30;
         c = $('#map');
 
         map = window.m = kartograph.map('#map');
@@ -49,7 +49,7 @@
          ajaxPost('/get_hashtag/', {'hashtag':$('#search-field').val()}, function(response) {
          console.log(response);
             crimeCities = response.results;
-            scale = kartograph.scale.log(crimeCities, key);
+            scale = kartograph.scale.log(crimeCities, "count");
 
             if (symbols) symbols.remove();
             symbols = map.addSymbols({
