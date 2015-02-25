@@ -116,6 +116,8 @@ CASES = {
 		"allah",
 		"quran",
 		"mecca",
+		'muslim',
+		'islam',
 		"muhammed",
 		"muhammad",
 	],
