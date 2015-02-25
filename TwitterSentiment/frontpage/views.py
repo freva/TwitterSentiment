@@ -8,8 +8,11 @@ from .aggregate_tweets import JsonConverter
 
 
 def home(request):
-    searchTerms = [{"case": label, "name": label} for label in load_cases.CASES.keys()]
-    searchTerms += [{"case": label, "name": "#" + hashtag} for label in load_cases.CASES.keys() for hashtag in load_cases.CASES[label]]
+    searchTerms = [{"case": label, "name": label, "id": ','.join(load_cases.CASES[label])}
+                   for label in load_cases.CASES.keys()]
+
+    searchTerms += [{"case": label, "name": "#" + hashtag, "id": hashtag}
+                    for label in load_cases.CASES.keys() for hashtag in load_cases.CASES[label]]
 
     return render(request, 'base.html',
         {'tags': json.dumps(searchTerms)})
@@ -17,14 +20,7 @@ def home(request):
 
 @ajax
 def get_hashtag(request):
-    cases = load_cases.CASES
-    rawSearch, hashtags = [term.lower() for term in request.POST.get('hashtag').split(",")], []
-
-    for searchTerm in rawSearch:
-        if "#" in searchTerm:
-            hashtags.append(searchTerm[1:])
-        elif searchTerm in cases:
-            hashtags.extend(cases[searchTerm])
+    hashtags = list(set(request.POST.get('hashtag').split(",")))
 
     results = JsonConverter.searchHashtags(hashtags)
     return {'results': results}
