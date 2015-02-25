@@ -47,7 +47,7 @@
     });
 
     $(document).ready(function() {
-        $("#search-field").tokenInput( {{tags }}, {
+        $("#search-field").tokenInput( {{ tags|safe }}, {
             method: 'POST',
             hintText: "#hashtag",
             resultsLimit: 10,
