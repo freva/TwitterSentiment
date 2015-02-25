@@ -51,7 +51,7 @@
             if(symbols != null) map.removeSymbols();
             crimeCities = response.results;
             scale = kartograph.scale.linear(crimeCities, key);
-            colscale = chroma.scale(["#CA0300", "#E16519", "#CACE17", "#388C04", "#047331"]);
+            colscale = chroma.scale(["#CA0300", "#FFFFFF", "#047331"]);
 
             function symbolAttrs(d) {
                return {
