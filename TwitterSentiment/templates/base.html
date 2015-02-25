@@ -31,10 +31,9 @@
 	</div>
 	
 	<script type="text/javascript">
-    $(function() {
-        var map, c, scale, updateMap, symbols, maxRad = 30;
-        c = $('#map');
+    var scale, symbols, map, maxRad = 30;
 
+    $(function() {
         map = window.m = kartograph.map('#map');
         map.loadMap("{% static 'display/map-usa.svg' %}", function() {
             map.addLayer('usa', {
