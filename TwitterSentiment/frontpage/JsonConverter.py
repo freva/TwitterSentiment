@@ -1,65 +1,43 @@
 from TwitterSentiment.scraper.models import Tweet
-
+from math import sqrt, pow, log
 
 class JsonConverter(object):
     @staticmethod
+    def doCluster(results):
+        while True:
+            clusters = []
+            for result in results:
+                JsonConverter.addCluster(result, clusters)
 
-    def insert_to_dictonary(lat, lng, polarity, dictionary):
-        """
-        Insert tweet into dictionary
-
-        :param lat: latitude
-        :param lng: longtitude
-        :param polarity: polarity
-        """
-        in_dictionary = False
-        for t in dictionary:
-            if t['lat'] == lat and t['lng'] == lng:
-                t['count'] += 1
-                t['polarity'].append(polarity)
-                in_dictionary = True
-                break
-        if not in_dictionary:
-            dictionary.append(
-                {
-                "lat": lat,
-                "lng": lng,
-                "polarity": [polarity],
-                "count": 1
-                }
-            )
+            if clusters == results:
+                return clusters
+            results = clusters
 
 
     @staticmethod
-    def calculate_polarity(dictionary):
-        """
-        Calculate average polarity
-        """
-        for t in dictionary:
-            tot_polarity = sum(t['polarity'])
-            t['polarity'] = tot_polarity / t['count']
+    def addCluster(result, clusters):
+        for cluster in clusters:
+            if JsonConverter.overlap(result, cluster):
+                numObjects1, numObjects2 = len(cluster["polarity"]), len(result["polarity"])
+                cluster["lat"] = (cluster["lat"]*numObjects1 + result["lan"]*numObjects2)/(numObjects1 + numObjects2)
+                cluster["lng"] = (cluster["lng"]*numObjects1 + result["lng"]*numObjects2)/(numObjects1 + numObjects2)
+                cluster["polarity"].extend(result["polarity"])
+                return
+        clusters.append(result)
 
 
     @staticmethod
-    def get_tweets(hashtag):
-        """
-        Returns tweets for hashtag
-        """
-        return Tweet.objects.filter(hashtag=hashtag)
+    def overlap(obj1, obj2):
+        dist = sqrt(pow(obj1["lat"]-obj2["lat"], 2) + pow(obj1["lng"]-obj2["lng"], 2))
+        return dist - 5*(log(len(obj1["polartity"])) + log(len(obj2["polarity"]))) < 0
 
 
     @staticmethod
     def searchHashtags(hashtags):
-        dictionary = []
+        dictionary = [{"lat": t.lat, "lng": t.lng, "polarity": [t.polarity]}
+                      for hashtag in hashtags
+                      for t in Tweet.objects.filter(hashtag= hashtag)]
 
-        for t in JsonConverter.get_tweets(hashtags):
-            JsonConverter.insert_to_dictonary(
-                round(float(t.lat), 0),
-                round(float(t.lng), 0),
-                float(t.polarity),
-                dictionary
-            )
-
-        JsonConverter.calculate_polarity(dictionary)
-        return dictionary
+        results = JsonConverter.doCluster(dictionary)
+        return results
 
