@@ -58,13 +58,16 @@
     });
 
     function searchTweets(term) {
-        if (symbols) symbols.remove();
-        if (term.length == 0) return;
+        if (term.length == 0) {
+            if (symbols) symbols.remove();
+            return;
+        }
 
          ajaxPost('/get_hashtag/', {'hashtag':term}, function(response) {
             crimeCities = response.results;
             scale = kartograph.scale.log(crimeCities, "count");
 
+            if (symbols) symbols.remove();
             symbols = map.addSymbols({
                 type: kartograph.PieChart,
                 data: crimeCities,
@@ -73,7 +76,8 @@
                 location: function(d) { return [d.lng, d.lat] },
                 values: function(d) { return [d.polarity, 1-d.polarity]; },
                 radius: function(d) { return 3+scale(d["count"])*maxRad; },
-                title: function(d) { return 'Num: ' + d.count + ' | Polarity: ' + Math.round(d.polarity); }
+                titles: function(d) { return ['Positive: ' + d.polarity*100 + '% | Total: ' + d.count,
+                                                'Negative: ' + 100 - d.polarity*100 + '% | Total: ' + d.count]; }
             });
          });
     }
