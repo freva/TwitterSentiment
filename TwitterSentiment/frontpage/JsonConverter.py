@@ -41,7 +41,7 @@ class JsonConverter(object):
         #results = JsonConverter.doCluster([t for t in dictionary if t["polarity"][0] < 0]) + JsonConverter.doCluster([t for t in dictionary if t["polarity"][0] >= 0])
         results = JsonConverter.doCluster(dictionary)
         results = [{"lat": t["lat"], "lng": t["lng"], "count": len(t["polarity"]),
-                    "polarity": (sum(t["polarity"])/len(t["polarity"])+100)/200,
+                    "polarity": (sum(t["polarity"])/len(t["polarity"])*+1)/2,
                     "variance": sum([i*i for i in t["polarity"]])/len(t["polarity"])}
                     for t in results]
         return results

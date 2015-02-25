@@ -49,18 +49,7 @@
          ajaxPost('/get_hashtag/', {'hashtag':$('#search-field').val()}, function(response) {
          console.log(response);
             crimeCities = response.results;
-            scale = kartograph.scale.linear(crimeCities, key);
-            colscale = chroma.scale(["#CA0300", "#047331"]);
-
-            function symbolAttrs(d) {
-               return {
-                  r: Math.log(scale(d["count"]+2))*maxRad,
-                  stroke: '#fff',
-                  'stroke-width': scale(d[key])*1,
-                  fill: colscale(scale(d[key])),
-                  'fill-opacity': 1 //d["variance"]
-               };
-            }
+            scale = kartograph.scale.log(crimeCities, key);
 
             if (symbols) symbols.remove();
             symbols = map.addSymbols({
@@ -69,8 +58,8 @@
                 colors: ["#CA0300", "#047331"],
                 border: "#fff",
                 location: function(d) { return [d.lng, d.lat] },
-                values: function(d) { return [d.polarity, 100-d.polarity]; },
-                radius: function(d) { return Math.log(scale(d["count"]+2))*maxRad; },
+                values: function(d) { return [d.polarity, 1-d.polarity]; },
+                radius: function(d) { return scale(d["count"])*maxRad; },
                 title: function(d) { return 'Num: ' + d.count + ' | Polarity: ' + Math.round(d.polarity); }
             });
          });
