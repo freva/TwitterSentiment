@@ -7,9 +7,11 @@ class TweetAdmin(admin.ModelAdmin):
 
 class CaseAdmin(admin.ModelAdmin):
 	list_display = ('name', 'created_at',)
+	search_fields = ('name',)
 
 class TagAdmin(admin.ModelAdmin):
 	list_display = ('name', 'created_at')
+	search_fields = ('name',)
 
 admin.site.register(Tweet, TweetAdmin)
 admin.site.register(Case, CaseAdmin)
