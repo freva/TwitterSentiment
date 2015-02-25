@@ -9,7 +9,6 @@ class JsonConverter(object):
             for result in results:
                 JsonConverter.addCluster(result, clusters)
 
-            print clusters
             if clusters == results:
                 return clusters
             results = clusters
@@ -40,7 +39,8 @@ class JsonConverter(object):
                       for t in Tweet.objects.filter(hashtag= hashtag)]
 
         results = JsonConverter.doCluster(dictionary)
-        results = [{"lat": t["lat"], "lng": t["lng"], "polarity": sum(t["polarity"])/len(t["polarity"])}
-                        for t in results]
+        results = [{"lat": t["lat"], "lng": t["lng"], "count": len(t["polarity"]),
+                    "polarity": sum(t["polarity"])/len(t["polarity"])}
+                    for t in results]
         return results
 

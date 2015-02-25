@@ -47,7 +47,6 @@
     $("#search-form").on('submit', function(e) {
          e.preventDefault();
          ajaxPost('/get_hashtag/', {'hashtag':$('#search-field').val()}, function(response) {
-         console.log(response);
             if(symbols != null) map.removeSymbols();
             crimeCities = response.results;
             scale = kartograph.scale.linear(crimeCities, key);
