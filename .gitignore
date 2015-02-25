@@ -8,6 +8,8 @@ venv
 *.pyc
 .env
 
+*dev.py
+
 
 # Distribution / packaging
 .Python
