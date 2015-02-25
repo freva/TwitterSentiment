@@ -50,7 +50,7 @@ class JsonConverter(object):
 
     @staticmethod
     def searchHashtags(hashtags):
-        dictionary = {}
+        dictionary = []
 
         for t in JsonConverter.get_tweets(hashtags):
             JsonConverter.insert_to_dictonary(
