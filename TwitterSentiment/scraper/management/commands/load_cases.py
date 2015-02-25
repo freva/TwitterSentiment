@@ -167,6 +167,26 @@ CASES = {
 	'Community':[
 		"community",
 	],
+	'March Madness':[
+		"marchmadness",
+	],
+	'NHL, kamp Nashville':[
+		"preds",
+		"smashville",
+		"nyr",
+		"nshvsnyr",
+		"nhl",
+	],
+	'NHL, kamp Los Angeles':[
+		"lackings",
+		"nhlducks",
+		"9inarow",
+		"4inarow",
+		"nhl",
+		"lakvsana",
+		"crashville",
+		"0inarow",
+	],
 	'Fifty Shades of Grey': [
 		'fiftyshadesofgrey',
 		'50shades',
