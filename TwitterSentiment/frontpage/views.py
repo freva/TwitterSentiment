@@ -8,7 +8,11 @@ from .aggregate_tweets import JsonConverter
 
 
 def home(request):
-    return render(request, 'base.html')
+    searchTerms = [{"case": label, "name": label} for label in load_cases.CASES.keys()]
+    searchTerms += [{"case": label, "name": hashtag} for label in load_cases.CASES.keys() for hashtag in load_cases.CASES[label]]
+
+    return render(request, 'base.html',
+        {'tags': searchTerms})
 
 
 @ajax
@@ -24,18 +28,3 @@ def get_hashtag(request):
 
     results = JsonConverter.searchHashtags(hashtags)
     return {'results': results}
-
-
-@ajax
-def get_suggestions(request):
-    cases, results = load_cases.CASES, []
-
-    for label in cases.keys():
-        if label.index(request) == 0 or label.index(" " + request) > 0:
-            results.append({"case": label, "name": label})
-
-    for label in cases.keys():
-        for hashtag in cases[label]:
-            if hashtag.index(request) == 0 or hashtag.index(" " + request) > 0:
-                results.append({"case": label, "name": "#" + hashtag})
-    return results
