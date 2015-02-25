@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from TwitterSentiment.scraper.models import Tweet
+from TwitterSentiment.scraper.models import *
 from textblob import TextBlob
 import time
 import tweepy
@@ -11,133 +11,37 @@ class Command(BaseCommand):
 
 class Streamer(tweepy.StreamListener):
 	def __init__(self, *args, **kwargs):
-		self.hashtags = [
-			# Obama
-			"obama",
-			"barackobama",
-			"obamacare",
-			"obama-care",
-			"patientprotectionandaffordablecareact",
-			"ppaca",
-			"affordablecareact",
-			"aca",
-			"obamahealthcare",
-
-
-			# Fifty Shades
-			"fiftyshadesofgrey",
-			"50shades",
-			"50shadesofgrey",
-			"fsog",
-			"fiftyshades",
-			"mrgreywillseeyounow",
-			"mrgrey",
-			"fiftyshadesofgreymovie",
-
-			# Bush
-			"jebbush",
-			"jebbushforpresident",
-			"johnellisbush",
-			"bushjeb",
-			"jebrunningforpresident",
-			"jebbrushpresident",
-			"jebbush2016",
-			"bush2016",
-
-			# Biden
-			"joebiden",
-			"joebidenforpresident",
-			"joebiden2016",
-
-			# Gay marriage
-			"gaymarriage",
-			"marriageequality",
-
-			# Climate
-			"climatechange",
-			"warmclima",
-			"globalwarming",
-			"arcticmelting",
-			"antarcticmelting",
-			"climateaction",
-
-			# Kygo
-			"kygo",
-			"kyrre",
-			"firestone",
-
-			# Kanye West
-			"kanyewest",
-			"kanye",
-			"sitdownkanye",
-			"kanyeomariwest",
-			"yeezus",
-
-			# Justin Timberlake
-			"justintimberlake",
-			"jt202tour",
-			"jt",
-			"timberbiel",
-			"2020experience",
-			"jtimberlake",
-			"timberlake",
-			"jtpresidentofpop",
-
-			# Justin Bieber
-			"justinbieber",
-			"bieber",
-			"justinbieberupdates",
-			"jb",
-			"beliebers",
-			"bieberfamily",
-			"belieber",
-
-			# Walmart
-			"walmart",
-			"wal-mart",
-
-			# Nike
-			"nike",
-			"freerun2",
-			"flyknit",
-			"superfly",
-
-			# Valentines
-			"valentinesday",
-			"valentine",
-			"bemyvalentine",
-			"vday",
-
-			"android",
-		]
+		self.hashtags = [t.encode("ascii") for t in Tag.objects.all().values_list('name', flat=True)]
 		return super(Streamer, self).__init__(*args, **kwargs)
 
 	def find_hashtag(self, hashtags):
 		for tag in hashtags:
-			if tag['text'] in self.hashtags:
-				return tag['text']
+			if tag['text'].lower() in self.hashtags:
+				return Tag.objects.get(name__iexact=tag['text'])
 		return False
 
 	def on_status(self, status):
 		try:
 			if status.coordinates:
-				hashtag = self.find_hashtag(status.entities['hashtags'])
-				if hashtag:
-					place = status.place.full_name.split(",")
-					score = TextBlob(status.text)
-					Tweet.objects.create(
-							tweet_id=status.id,
-							hashtag=hashtag,
-							created_at=status.created_at,
-							retweet_count=status.retweet_count,
-							favorite_count=status.favorite_count,
-							lat=round(status.coordinates['coordinates'][-1], 3),
-							lng=round(status.coordinates['coordinates'][0], 3),
-							city=place[0],
-							state=place[-1].strip(),
-							polarity=score.polarity,
-							subjectivity=score.subjectivity
-						)
+				if status.entities['hashtags']:
+					hashtag = self.find_hashtag(status.entities['hashtags'])
+					if hashtag:
+						place = status.place.full_name.split(",")
+						score = TextBlob(status.text)
+						Tweet.objects.create(
+								tweet_id=status.id,
+								tag=hashtag,
+								hashtag=hashtag.name,
+								created_at=status.created_at,
+								retweet_count=status.retweet_count,
+								favorite_count=status.favorite_count,
+								lat=round(status.coordinates['coordinates'][-1], 3),
+								lng=round(status.coordinates['coordinates'][0], 3),
+								city=place[0],
+								state=place[-1].strip(),
+								polarity=score.polarity,
+								subjectivity=score.subjectivity
+							)
 		except Exception as e:
 			print e
 
