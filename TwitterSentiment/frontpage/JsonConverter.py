@@ -29,7 +29,7 @@ class JsonConverter(object):
     @staticmethod
     def overlap(obj1, obj2):
         dist = sqrt(pow(obj1["lat"]-obj2["lat"], 2) + pow(obj1["lng"]-obj2["lng"], 2))
-        return dist - 5*(log(len(obj1["polarity"])+2) + log(len(obj2["polarity"])+2)) < 0
+        return dist - 0.25*(log(len(obj1["polarity"])+2) + log(len(obj2["polarity"])+2)) < 0
 
 
     @staticmethod
@@ -40,7 +40,8 @@ class JsonConverter(object):
 
         results = JsonConverter.doCluster(dictionary)
         results = [{"lat": t["lat"], "lng": t["lng"], "count": len(t["polarity"]),
-                    "polarity": sum(t["polarity"])/len(t["polarity"])}
+                    "polarity": (sum(t["polarity"])/len(t["polarity"])+1)/2,
+                    "variance": sum([i*i for i in t["polarity"]])/len(t["polarity"])}
                     for t in results]
         return results
 
