@@ -48,10 +48,9 @@
          e.preventDefault();
          ajaxPost('/get_hashtag/', {'hashtag':$('#search-field').val()}, function(response) {
          console.log(response);
-            if(symbols != null) map.removeSymbols();
             crimeCities = response.results;
             scale = kartograph.scale.linear(crimeCities, key);
-            colscale = chroma.scale(["#CA0300", "#E16519", "#CACE17", "#388C04", "#047331"]);
+            colscale = chroma.scale(["#CA0300", "#047331"]);
 
             function symbolAttrs(d) {
                return {
@@ -63,12 +62,16 @@
                };
             }
 
+            if (symbols) symbols.remove();
             symbols = map.addSymbols({
-               type: kartograph.Bubble,
-               data: crimeCities,
-               location: function(d) { return [d.lng, d.lat] },
-               attrs: symbolAttrs,
-               title: function(d) { return 'Num: ' + d.count; }
+                type: kartograph.PieChart,
+                data: crimeCities,
+                colors: ["#CA0300", "#047331"],
+                border: "#fff",
+                location: function(d) { return [d.lng, d.lat] },
+                values: function(d) { return [d.polarity, 100-d.polarity]; },
+                radius: function(d) { return Math.log(scale(d["count"]+2))*maxRad; },
+                title: function(d) { return 'Num: ' + d.count + ' | Polarity: ' + Math.round(d.polarity); }
             });
          });
       });
