@@ -1,14 +1,22 @@
 import os
+import socket
 import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 DEFAULT_SECRET_KEY = '3iy-!-d$!pc_ll$#$elg&cpr@*tfn-d5&n9ag=)%#()t$$5%5^'
 SECRET_KEY = os.environ.get('SECRET_KEY', DEFAULT_SECRET_KEY)
 
-DEBUG = True
-TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = TEMPLATE_DEBUG = True
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME':'tweets',
+        'USER':'admin',
+        'PASSWORD':'asdqwe123',
+        'HOST':'185.69.55.87',
+        'PORT':'3306',
+    }
+}
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -41,14 +49,11 @@ TEMPLATE_DIRS = (
 ROOT_URLCONF = 'TwitterSentiment.urls'
 WSGI_APPLICATION = 'TwitterSentiment.wsgi.application'
 
-DATABASES = {}
-DATABASES['default'] =  dj_database_url.config()
-
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'europe/oslo'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -59,8 +64,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
-try:
-    from TwitterSentiment.dev import *
-except ImportError:
-    pass
