@@ -115,6 +115,9 @@ CASES = {
 	'Islam':[
 		"allah",
 		"quran",
+		"mecca",
+		"muhammed",
+		"muhammad",
 	],
 	'Game of Thrones':[
 		"gameofthrones",
@@ -250,6 +253,7 @@ CASES = {
 	],
 	'Katy Perry':[
 		"katyperry",
+		"katyp",
 	],
 	'Ed Sheeran':[
 		"edsheeran",
@@ -264,6 +268,7 @@ CASES = {
 		'sitdownkanye',
 		'kanyeomariwest',
 		'yeezus',
+		'mbdtf',
 	],
 	'Justin Timberlake': [
 		'justintimberlake',
@@ -303,6 +308,11 @@ CASES = {
 		"justdoit",
 		"nikefree",
 		"nikepegasus",
+		"jualnike",
+		"nikewomen",
+		"nikemen",
+		"nikeplus",
+		"jualanike",
 	],
 	'Test': [
 		'follow',
