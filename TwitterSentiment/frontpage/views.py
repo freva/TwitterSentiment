@@ -11,8 +11,5 @@ def home(request):
 @ajax
 def get_hashtag(request):
 	hashtag = request.POST.get('hashtag')
-	jsonconverter = JsonConverter()
-	jsonconverter.set_hashtag(hashtag)
-	jsonconverter.run()
-	results = jsonconverter.get_dictionary()
+	results = JsonConverter.searchHashtags(hashtag)
 	return {'results': results}
