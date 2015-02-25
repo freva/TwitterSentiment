@@ -5,7 +5,7 @@ class Tag(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 
 	def __unicode__(self):
-		return "#%s" %(self.name)
+		return self.name
 
 class Case(models.Model):
 	name = models.CharField(max_length=200)
