@@ -9,10 +9,10 @@ from .aggregate_tweets import JsonConverter
 
 def home(request):
     searchTerms = [{"case": label, "name": label} for label in load_cases.CASES.keys()]
-    searchTerms += [{"case": label, "name": hashtag} for label in load_cases.CASES.keys() for hashtag in load_cases.CASES[label]]
+    searchTerms += [{"case": label, "name": "#" + hashtag} for label in load_cases.CASES.keys() for hashtag in load_cases.CASES[label]]
 
     return render(request, 'base.html',
-        {'tags': searchTerms})
+        {'tags': json.dumps(searchTerms)})
 
 
 @ajax
