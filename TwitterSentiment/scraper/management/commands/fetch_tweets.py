@@ -107,6 +107,8 @@ class Streamer(tweepy.StreamListener):
 			"valentine",
 			"bemyvalentine",
 			"vday",
+
+			"android",
 		]
 		return super(Streamer, self).__init__(*args, **kwargs)
 
