@@ -115,6 +115,11 @@ CASES = {
 	'Islam':[
 		"allah",
 		"quran",
+		"mecca",
+		'muslim',
+		'islam',
+		"muhammed",
+		"muhammad",
 	],
 	'Game of Thrones':[
 		"gameofthrones",
@@ -182,7 +187,6 @@ CASES = {
 		"nhlducks",
 		"9inarow",
 		"4inarow",
-		"nhl",
 		"lakvsana",
 		"crashville",
 		"0inarow",
@@ -250,12 +254,13 @@ CASES = {
 	],
 	'Katy Perry':[
 		"katyperry",
+		"katyp",
 	],
 	'Ed Sheeran':[
 		"edsheeran",
 		"sheeran",
 	],
-	'Chris Brown'[
+	'Chris Brown':[
 		"chrisbrown",
 	],
 	'Kanye West': [
@@ -264,6 +269,7 @@ CASES = {
 		'sitdownkanye',
 		'kanyeomariwest',
 		'yeezus',
+		'mbdtf',
 	],
 	'Justin Timberlake': [
 		'justintimberlake',
@@ -303,6 +309,11 @@ CASES = {
 		"justdoit",
 		"nikefree",
 		"nikepegasus",
+		"jualnike",
+		"nikewomen",
+		"nikemen",
+		"nikeplus",
+		"jualanike",
 	],
 	'Test': [
 		'follow',
