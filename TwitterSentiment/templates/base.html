@@ -46,7 +46,7 @@
         });
     });
 
-   $(document).ready(function() {
+    $(document).ready(function() {
         $("#search-field").tokenInput("/get_suggestions/", {
             method: 'POST',
             hintText: "#hashtag",
@@ -75,8 +75,7 @@
                 title: function(d) { return 'Num: ' + d.count + ' | Polarity: ' + Math.round(d.polarity); }
             });
          });
-      });
-   }
+    }
     </script>
 
 	<div style="position:relative">
