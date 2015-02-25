@@ -1,7 +1,13 @@
-import tweepy
-import time
-from textblob import TextBlob
+from django.core.management.base import BaseCommand, CommandError
 from TwitterSentiment.scraper.models import Tweet
+from textblob import TextBlob
+import time
+import tweepy
+
+class Command(BaseCommand):	
+	def handle(self, *args, **kwargs):
+		worker = Worker()
+		worker.run()
 
 class Streamer(tweepy.StreamListener):
 	def __init__(self, *args, **kwargs):
@@ -101,6 +107,8 @@ class Streamer(tweepy.StreamListener):
 			"valentine",
 			"bemyvalentine",
 			"vday",
+
+			"android",
 		]
 		return super(Streamer, self).__init__(*args, **kwargs)
 
@@ -152,8 +160,3 @@ class Worker(object):
 					languages=['en',],
 					locations=[-125.3,25.5,-66.8,48.9],
 				)
-
-if __name__ == "__main__":
-	worker = Worker()
-	worker.run()
-
