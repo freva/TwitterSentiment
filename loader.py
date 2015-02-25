@@ -29,9 +29,9 @@ def load():
 	with open('/root/TwitterSentiment/tweets.json', 'r') as f:
 		d = json.loads(f.read())
 
-	for e in d:
+	for i, e in enumerate(d, 0):
 		e = e['fields']
-		t = Tweet()
+		t = Tweet(id=i+1)
 
 		try:
 			t.tweet_id = e['tweet_id']
