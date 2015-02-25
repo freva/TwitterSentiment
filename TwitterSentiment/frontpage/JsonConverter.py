@@ -38,7 +38,6 @@ class JsonConverter(object):
                       for hashtag in hashtags
                       for t in Tweet.objects.filter(hashtag= hashtag)]
 
-        #results = JsonConverter.doCluster([t for t in dictionary if t["polarity"][0] < 0]) + JsonConverter.doCluster([t for t in dictionary if t["polarity"][0] >= 0])
         results = JsonConverter.doCluster(dictionary)
         results = [{"lat": t["lat"], "lng": t["lng"], "count": len(t["polarity"]),
                     "polarity": (sum(t["polarity"])/len(t["polarity"])+1)/2,
