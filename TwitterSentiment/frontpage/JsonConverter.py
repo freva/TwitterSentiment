@@ -19,7 +19,7 @@ class JsonConverter(object):
         for cluster in clusters:
             if JsonConverter.overlap(result, cluster):
                 numObjects1, numObjects2 = len(cluster["polarity"]), len(result["polarity"])
-                cluster["lat"] = (cluster["lat"]*numObjects1 + result["lan"]*numObjects2)/(numObjects1 + numObjects2)
+                cluster["lat"] = (cluster["lat"]*numObjects1 + result["lat"]*numObjects2)/(numObjects1 + numObjects2)
                 cluster["lng"] = (cluster["lng"]*numObjects1 + result["lng"]*numObjects2)/(numObjects1 + numObjects2)
                 cluster["polarity"].extend(result["polarity"])
                 return
