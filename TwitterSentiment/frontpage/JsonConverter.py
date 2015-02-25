@@ -9,6 +9,7 @@ class JsonConverter(object):
             for result in results:
                 JsonConverter.addCluster(result, clusters)
 
+            print clusters
             if clusters == results:
                 return clusters
             results = clusters
