@@ -34,10 +34,12 @@ class JsonConverter(object):
 
     @staticmethod
     def searchHashtags(hashtags):
-        dictionary = [{"lat": t.lat, "lng": t.lng, "polarity": [t.polarity]}
+        dictionary = [{"lat": float(t.lat), "lng": float(t.lng), "polarity": [float(t.polarity)]}
                       for hashtag in hashtags
                       for t in Tweet.objects.filter(hashtag= hashtag)]
 
         results = JsonConverter.doCluster(dictionary)
+        results = [{"lat": t["lat"], "lng": t["lng"], "polarity": sum(t["polarity"])/len(t["polarity"])}
+                        for t in results]
         return results
 
