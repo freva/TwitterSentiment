@@ -58,13 +58,13 @@
     });
 
     function searchTweets(term) {
-        console.log(term);
+        if (symbols) symbols.remove();
+        if (term.length == 0) return;
+
          ajaxPost('/get_hashtag/', {'hashtag':term}, function(response) {
-         console.log(response);
             crimeCities = response.results;
             scale = kartograph.scale.log(crimeCities, "count");
 
-            if (symbols) symbols.remove();
             symbols = map.addSymbols({
                 type: kartograph.PieChart,
                 data: crimeCities,
