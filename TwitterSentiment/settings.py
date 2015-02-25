@@ -106,6 +106,10 @@ LOGGING = {
         'TwitterSentiment.scraper.management.commands.load_cases': {
             'handlers': ['console'],
             'level': 'INFO',
+        },
+        'TwitterSentiment.scraper.management.commands.refactor_tweets': {
+            'handlers': ['console'],
+            'level': 'INFO',
         }
     }
 }

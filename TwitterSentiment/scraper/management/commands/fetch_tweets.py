@@ -8,12 +8,19 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):	
 	def handle(self, *args, **kwargs):
+		""" 
+		Start the tweet fetcher
+		Usage: python manage.py fetch_tweets
+		"""
 		logger.info('Starting tweet fetcher')
 		worker = Worker()
 		worker.run()
 
 class Streamer(tweepy.StreamListener):
 	def __init__(self, *args, **kwargs):
+		"""
+		Initializes the streamer.
+		"""
 		self.last_id = self.find_last_id()
 		self.looked_through = 0
 		start = time()
@@ -22,12 +29,18 @@ class Streamer(tweepy.StreamListener):
 		return super(Streamer, self).__init__(*args, **kwargs)
 
 	def find_last_id(self):
+		"""
+		Finds last id used in tweets.
+		"""
 		try:
 			return max(Tweet.objects.all().values_list('id', flat=True))
 		except ValueError:
 			return 0
 
 	def find_hashtag(self, hashtags):
+		"""
+		Check if the tweet contains one of the recording hashtags
+		"""
 		for tag in hashtags:
 			if tag['text'].lower() in self.hashtags:
 				return Tag.objects.get(name__iexact=tag['text'])
