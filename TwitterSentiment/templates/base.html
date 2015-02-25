@@ -50,6 +50,7 @@
             method: 'POST',
             hintText: "#hashtag",
             resultsLimit: 10,
+            preventDuplicates: true,
             onAdd: function (results) { searchTweets($('#search-field').val()); },
             onDelete: function (results) { searchTweets($('#search-field').val()); }
 
@@ -57,6 +58,7 @@
     });
 
     function searchTweets(term) {
+        console.log(term);
          ajaxPost('/get_hashtag/', {'hashtag':term}, function(response) {
          console.log(response);
             crimeCities = response.results;
