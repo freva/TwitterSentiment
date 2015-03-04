@@ -6,8 +6,6 @@ import tweepy
 import logging
 logger = logging.getLogger(__name__)
 
-TWEETS_PARSED = 0
-
 class Command(BaseCommand):	
 	def handle(self, *args, **kwargs):
 		""" 
@@ -24,6 +22,7 @@ class Streamer(tweepy.StreamListener):
 		Initializes the streamer.
 		"""
 		self.last_id = self.find_last_id()
+		self.tweets_parsed = 0
 		self.hashtags = [t.encode("ascii") for t in Tag.objects.all().values_list('name', flat=True)]
 		return super(Streamer, self).__init__(*args, **kwargs)
 
@@ -48,9 +47,9 @@ class Streamer(tweepy.StreamListener):
 
 	def on_status(self, status):
 		try:
-			TWEETS_PARSED += 1
-			if TWEETS_PARSED % 10000 == 0:
-				logger.info('Searched through %s tweets' %(TWEETS_PARSED))
+			self.tweets_parsed += 1
+			if self.tweets_parsed % 10000 == 0:
+				logger.info('Searched through %s tweets' %(self.tweets_parsed))
 		except Exception as e:
 			logger.exception('Failed counting tweets parsed')
 		try:
