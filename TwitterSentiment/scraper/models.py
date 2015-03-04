@@ -18,6 +18,7 @@ class Case(models.Model):
 class Tweet(models.Model):
 	tag = models.ForeignKey(Tag, blank=True, null=True, related_name="tags")
 	id = models.PositiveIntegerField(primary_key=True)
+	text = models.CharField(max_length=250, blank=True, null=True)
 	tweet_id = models.CharField(max_length=50, unique=True, blank=True, null=True)
 	hashtag = models.CharField(max_length=50, blank=True, null=True)
 	created_at = models.DateTimeField(blank=True, null=True)
