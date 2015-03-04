@@ -92,29 +92,24 @@
          });
     }
 
-    $(function(){
-        var d = new Date();
-        $('#start_time').val("01/01/2015 00:00");
-        $('#end_time').val(d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear() + " 23:59");
+    jQuery(function(){
+		var minDateStr = "01/01/2015 00:00", maxDateStr = "31/12/2015 23:59";
 
-        $('#end_time').change(function() {
-            $('#start_time').appendDtpicker({
-                format:'d/m/Y H:i',
-                maxDate: $('#end_time').val() // when the end time changes, update the maxDate on the start field
-            });
-        });
+		$('#start_time').val(minDateStr);
+		$('#end_time').val(maxDateStr);
 
-        $('#start_time').change(function() {
-            $('#end_time').appendDtpicker({
-                format:'d/m/Y H:i',
-                minDate: $('#start_time').val() // when the start time changes, update the minDate on the end field
-            });
-        });
+		jQuery('#start_time').datetimepicker({
+			format: 'd/m/Y H:i',
+			dayOfWeekStart: 1
+		});
 
-        // trigger change event so datapickers get attached
-        $('#end_time').trigger('change');
-        $('#start_time').trigger('change');
-    });
+		jQuery('#end_time').datetimepicker({
+			format: 'd/m/Y H:i',
+			dayOfWeekStart: 1,
+			minDate: minDateStr
+		});
+	});
+
 
     $(function() { $(document).tooltip(); });
     </script>
