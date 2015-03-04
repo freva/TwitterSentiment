@@ -54,7 +54,6 @@
     $(document).ready(function() {
         $("#search-field").tokenInput( {{ tags|safe }}, {
             method: 'POST',
-            hintText: "#hashtag",
             resultsLimit: 10,
             preventDuplicates: true,
             onAdd: function (results) { searchTweets($('#search-field').val()); },
@@ -105,8 +104,7 @@
 
 		jQuery('#end_time').datetimepicker({
 			format: 'd/m/Y H:i',
-			dayOfWeekStart: 1,
-			minDate: minDateStr
+			dayOfWeekStart: 1
 		});
 	});
 
