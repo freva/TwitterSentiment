@@ -5953,13 +5953,11 @@ function kdtree() {
         });
       }
       me.chart = me.layers.mapcanvas.pieChart(me.x, me.y, me.radius, me.values, me.titles, me.colors, "none");
-      for(var i=0; i<me.chart.items.length; i++) {
-		  var newTitle = document.createElement("title");
-		  var newContent = document.createTextNode(me.titles[i]);
-		  newTitle.appendChild(newContent);
-		  me.chart.items[i][0].appendChild(newTitle);
+	  
+	  for(var i=0; i<me.chart.items.length; i++) {
+		  me.chart.items[i][0].setAttribute("title", me.titles[i]);
 	  }
-
+	  
       me.chart.push(bg);
       return me;
     };
