@@ -1,0 +1,27 @@
+.group-item-expander {
+    cursor: pointer;
+    padding-left: 25px !important;
+}
+
+td.expanded-group {
+    position: relative;
+}
+td.expanded-group:before {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-family: FontAwesome;
+    font-size: 20px;
+    content: "\f068";
+}
+td.collapsed-group {
+    position:relative;
+}    
+td.collapsed-group:before {
+    position:absolute;
+    top: 5px;
+    left: 5px;
+    font-family: FontAwesome;
+    font-size: 20px;
+    content: "\f067";
+}
