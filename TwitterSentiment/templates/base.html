@@ -76,8 +76,11 @@
                 location: function(d) { return [d.lng, d.lat] },
                 values: function(d) { return d.polarity; },
                 radius: function(d) { return 3+scale(d.count)*maxRad; },
-                titles: function(d) { return ['Positive: ' + d.polarity*100 + '% | Total: ' + d.count,
-                                                'Negative: ' + 100 - d.polarity*100 + '% | Total: ' + d.count]; }
+                titles: function(d) {
+                    var desc = [];
+                    for(var i=0; i<d.polarity.length; i++) desc.push(d.polarity[i] + " out of " + d.count);
+                    return desc;
+                }
             });
             console.log(symbols);
          });
