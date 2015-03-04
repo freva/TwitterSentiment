@@ -6053,7 +6053,7 @@ function kdtree() {
         stroke: stroke,
         'stroke-width': 1
       });
-      
+
       angle += angleplus;
       chart.push(p);
     };

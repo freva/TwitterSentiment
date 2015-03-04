@@ -18,7 +18,7 @@ h1 {
 
 #sidebar {
 	float:left;
-	width:200px;
+	width:20%;
 	background:#CCC;
 	padding:10px;
 	height:100vh;
@@ -26,6 +26,6 @@ h1 {
 
 #map {
 	float:right;
-	width:1120px;
-	height:670px;
+	width:79%;
+	height:650px;
 }
