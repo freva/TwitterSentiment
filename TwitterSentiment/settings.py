@@ -31,6 +31,7 @@ INSTALLED_APPS = (
 
     'TwitterSentiment.scraper',
     'TwitterSentiment.frontpage',
+    'TwitterSentiment.stats',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -100,6 +101,10 @@ LOGGING = {
     },
     'loggers': {
         'TwitterSentiment.scraper.management.commands.fetch_tweets': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+        },
+        'TwitterSentiment.stats.management.commands.calculate_stats': {
             'handlers': ['console', 'file'],
             'level': 'INFO',
         },

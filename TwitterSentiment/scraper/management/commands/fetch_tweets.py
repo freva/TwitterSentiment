@@ -63,6 +63,7 @@ class Streamer(tweepy.StreamListener):
 						Tweet.objects.create(
 								id=self.last_id,
 								tweet_id=status.id,
+								text=status.text,
 								tag=hashtag,
 								hashtag=hashtag.name,
 								created_at=status.created_at,
@@ -97,3 +98,4 @@ class Worker(object):
 					languages=['en',],
 					locations=[-125.3,25.5,-66.8,48.9],
 				)
+
