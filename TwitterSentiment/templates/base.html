@@ -71,7 +71,7 @@
             symbols = map.addSymbols({
                 type: kartograph.PieChart,
                 data: crimeCities,
-                colors: ['#7ca668', '#fc575e'],
+                colors: ['#7ca668', '#ffff00', '#fc575e'],
                 border: "#fff",
                 location: function(d) { return [d.lng, d.lat] },
                 values: function(d) { return [d.polarity, 1-d.polarity]; },
