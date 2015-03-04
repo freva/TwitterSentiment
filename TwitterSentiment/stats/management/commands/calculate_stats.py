@@ -27,7 +27,6 @@ class Command(BaseCommand):
 		system("supervisorctl stop twitter")
 
 	def start_scraper(self):
-		logger.info("Starting scraper")
 		system("supervisorctl start twitter")
 
 	def calculate_case_stats(self):
