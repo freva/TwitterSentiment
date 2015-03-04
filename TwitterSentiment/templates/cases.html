@@ -12,28 +12,6 @@
 </head>
 <body>
     <div class="col-xs-12">
-        <table class="table dataTable table-striped table-advanced table-bordered">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="text-align: right;">Number of hashtags</th>
-                    <th style="text-align: right;">Number of tweets</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>From database</th>
-                    <td style="text-align: right;">{{ hashtags_from_database }}</td>
-                    <td style="text-align: right;">{{ tweets_from_database }}</td>
-                </tr>
-                <tr>
-                    <th>From cases</th>
-                    <td style="text-align: right;">{{ hashtags_from_cases }}</td>
-                    <td style="text-align: right;">{{ tweets_from_cases }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <br/>
         <table id="overview-table" class="table dataTable table-striped table-advanced table-bordered">
             <thead>
                 <tr>
@@ -43,17 +21,19 @@
                     <th>Number of tweets</th>
                     <th>Average subjectivity</th>
                     <th>Average polarity</th>
+                    <th>Recorded</th>
                 </tr>
             </thead>
             <tbody>
                 {% for c in cases %}
                     <tr>
-                        <td>{{ c.name }}</td>
-                        <td>#{{ c.most_popular_hashtag }}</td>
+                        <td>{{ c }}</td>
+                        <td>#{{ c.most_used_hashtag }}</td>
                         <td style="text-align: right;">{{ c.hashtags }}</td>
                         <td style="text-align: right;">{{ c.tweets }}</td>
                         <td style="text-align: right;">{{ c.subjectivity }}</td>
                         <td style="text-align: right;">{{ c.polarity }}</td>
+                        <td style="text-align: right;">{{ c.created_at|timesince }} ago</td>
                     </tr>
                 {% endfor %}
             </tbody>

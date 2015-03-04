@@ -12,23 +12,6 @@
 </head>
 <body>
     <div class="col-xs-12">
-        <table class="table table-bordered table-striped table-advanced">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="text-align: right;">Number of hashtags</th>
-                    <th style="text-align: right;">Number of tweets</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>From database</th>
-                    <td style="text-align: right;">{{ tags }}</td>
-                    <td style="text-align: right;">{{ tweets }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <br/>
         <table class="table table-bordered table-striped table-advanced dataTable" id="overview-table">
             <thead>
                 <tr>
@@ -37,16 +20,18 @@
                     <th>Number of tweets</th>
                     <th>Average subjectivity</th>
                     <th>Average polarity</th>
+                    <th>Recorded</th>
                 </tr>
             </thead>
             <tbody>
                 {% for h in hashtags %}
                     <tr>
                         <td>{{ h.case }}</td>
-                        <td>#{{ h.name }}</td>
+                        <td>#{{ h }}</td>
                         <td style="text-align: right;">{{ h.tweets }}</td>
                         <td style="text-align: right;">{{ h.subjectivity }}</td>
                         <td style="text-align: right;">{{ h.polarity }}</td>
+                        <td style="text-align: right;">{{ h.created_at|timesince }} ago</td>
                     </tr>
                 {% endfor %}
             </tbody>
