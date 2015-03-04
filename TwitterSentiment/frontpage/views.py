@@ -23,5 +23,4 @@ def get_hashtag(request):
     hashtags = list(set(request.POST.get('hashtag').split(",")))
 
     results = JsonConverter.searchHashtags(hashtags)
-    results = JsonConverter.groupPolarities(results)
     return {'results': results}

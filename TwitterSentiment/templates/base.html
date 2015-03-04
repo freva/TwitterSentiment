@@ -74,8 +74,8 @@
                 colors: ['#7ca668', '#ffff00', '#fc575e'],
                 border: "#fff",
                 location: function(d) { return [d.lng, d.lat] },
-                values: function(d) { return d.polarityDistribution; },
-                radius: function(d) { return 3+scale(d["count"])*maxRad; },
+                values: function(d) { return d.polarity; },
+                radius: function(d) { return 3+scale(d.count)*maxRad; },
                 titles: function(d) { return ['Positive: ' + d.polarity*100 + '% | Total: ' + d.count,
                                                 'Negative: ' + 100 - d.polarity*100 + '% | Total: ' + d.count]; }
             });
