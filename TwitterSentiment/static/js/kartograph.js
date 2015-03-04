@@ -6053,16 +6053,7 @@ function kdtree() {
         stroke: stroke,
         'stroke-width': 1
       });
-      p.mouseover(function() {
-        p.stop().animate({
-          transform: "s1.1 1.1 " + cx + " " + cy
-        }, ms, "elastic");
-      });
-      p.mouseout(function() {
-        p.stop().animate({
-          transform: ""
-        }, ms, "elastic");
-      });
+      
       angle += angleplus;
       chart.push(p);
     };

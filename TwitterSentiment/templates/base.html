@@ -79,7 +79,7 @@
                 radius: function(d) { return 3+scale(d.count)*maxRad; },
                 titles: function(d) {
                     var desc = [];
-                    for(var i=0; i<d.polarity.length; i++) desc.push(d.polarity[i] + " out of " + d.count);
+                    for(var i=0; i<d.polarity.length; i++) desc.push(Math.floor(d.polarity[i]) + " out of " + d.count);
                     return desc;
                 }
             });
