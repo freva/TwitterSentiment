@@ -40,11 +40,11 @@ class JsonConverter(object):
 
         results =  JsonConverter.doCluster(dictionary)
         for t in results:
-            groups = [0, 0, 0]
+            groups = [0.1, 0.1, 0.1]
             for pol in t["polarity"]:
-                if pol < -0.3:
+                if pol < -0.2:
                     groups[0] += 1
-                elif pol < 0.3:
+                elif pol < 0.2:
                     groups[1] += 1
                 else:
                     groups[2] += 1
