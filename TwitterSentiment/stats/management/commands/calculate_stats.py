@@ -1,12 +1,14 @@
 from django.core.management.base import BaseCommand, CommandError
 from TwitterSentiment.scraper.models import *
 from TwitterSentiment.stats.models import *
+from os import system
 from time import time
 import logging
 logger = logging.getLogger(__name__)
 
-class Command(BaseCommand):	
+class Command(BaseCommand):
 	def handle(self, *args, **kwargs):
+		self.stop_scraper()
 		logger.info("Starting stats calculator")
 		start = time()
 		logger.info("Running: calculate_case_stats()")
@@ -18,6 +20,15 @@ class Command(BaseCommand):
 		self.calculate_tag_stats()
 		logger.info("Completed: calculate_tag_stats() in %s seconds" %(round(time() - start, 2)))
 		logger.info("Shutting down stats calculator")
+		self.start_scraper()
+
+	def stop_scraper(self):
+		logger.info("Stopping scraper")
+		system("supervisorctl stop twitter")
+
+	def start_scraper(self):
+		logger.info("Starting scraper")
+		system("supervisorctl start twitter")
 
 	def calculate_case_stats(self):
 		for c in Case.objects.all():
