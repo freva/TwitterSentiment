@@ -22,10 +22,8 @@ class Streamer(tweepy.StreamListener):
 		Initializes the streamer.
 		"""
 		self.last_id = self.find_last_id()
-		self.looked_through = 0
-		start = time()
+		self.tweets_parsed = 0
 		self.hashtags = [t.encode("ascii") for t in Tag.objects.all().values_list('name', flat=True)]
-		logger.info('Loaded %s hashtags from the database in %s seconds' %(len(self.hashtags), round(time() - start, 1)))
 		return super(Streamer, self).__init__(*args, **kwargs)
 
 	def find_last_id(self):
@@ -35,6 +33,7 @@ class Streamer(tweepy.StreamListener):
 		try:
 			return max(Tweet.objects.all().values_list('id', flat=True))
 		except ValueError:
+			logger.exception('Failed finding the last tweet id')
 			return 0
 
 	def find_hashtag(self, hashtags):
@@ -47,15 +46,17 @@ class Streamer(tweepy.StreamListener):
 		return False
 
 	def on_status(self, status):
-		self.looked_through += 1
-		if self.looked_through % 1000 == 0:
-			logging.info('Searched %s tweets')
+		try:
+			self.tweets_parsed += 1
+			if self.tweets_parsed % 10000 == 0:
+				logger.info('Searched through %s tweets' %(self.tweets_parsed))
+		except Exception as e:
+			logger.exception('Failed counting tweets parsed')
 		try:
 			if status.coordinates:
 				if status.entities['hashtags']:
 					hashtag = self.find_hashtag(status.entities['hashtags'])
 					if hashtag:
-						logger.info('Found hashtag: %s' %(hashtag))
 						place = status.place.full_name.split(",")
 						score = TextBlob(status.text)
 						self.last_id += 1
@@ -75,7 +76,7 @@ class Streamer(tweepy.StreamListener):
 								subjectivity=score.subjectivity
 							)
 		except Exception as e:
-			logger.warning('Exception raised: %s' %(e))
+			logger.exception('Exception raised when parsing tweet')
 
 class Worker(object):
 	def __init__(self):
