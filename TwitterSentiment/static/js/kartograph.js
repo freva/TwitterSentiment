@@ -4533,6 +4533,7 @@
       me.key = opts.key;
       me.x = opts.x;
       me.y = opts.y;
+      me.ids = opts.ids;
     }
 
     Symbol.prototype.init = function() {
@@ -5921,6 +5922,7 @@ function kdtree() {
       me.border = (_ref26 = opts.border) != null ? _ref26 : false;
       me.borderWidth = (_ref27 = opts.borderWidth) != null ? _ref27 : 2;
       me["class"] = (_ref28 = opts["class"]) != null ? _ref28 : 'piechart';
+      me.tweetIDs = opts.tweetIDs;
       if ((_ref29 = (_base2 = Raphael.fn).pieChart) == null) {
         _base2.pieChart = drawPieChart;
       }
@@ -5952,7 +5954,7 @@ function kdtree() {
           fill: me.border
         });
       }
-      me.chart = me.layers.mapcanvas.pieChart(me.x, me.y, me.radius, me.values, me.titles, me.colors, "none");
+      me.chart = me.layers.mapcanvas.pieChart(me.x, me.y, me.radius, me.values, me.titles, me.colors, "none", me);
 	  
 	  for(var i=0; i<me.chart.items.length; i++) {
 		  me.chart.items[i][0].setAttribute("title", me.titles[i]);
@@ -6019,7 +6021,7 @@ function kdtree() {
   */
 
 
-  drawPieChart = function(cx, cy, r, values, labels, colors, stroke) {
+  drawPieChart = function(cx, cy, r, values, labels, colors, stroke, me) {
     var angle, chart, i, paper, process, rad, sector, total, v, _i, _len;
 
     if (isNaN(cx) || isNaN(cy) || isNaN(r)) {
@@ -6064,6 +6066,10 @@ function kdtree() {
           transform: ""
         }, ms, "elastic");
       });
+	  
+	  p.mouseup(function() {
+		 displayTweets(me.location, me.ids);
+	  });
 
       angle += angleplus;
       chart.push(p);
