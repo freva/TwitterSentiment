@@ -4525,7 +4525,8 @@
     me = null;
 
     function Symbol(opts) {
-    console.log("Symbol" + opts)
+    console.log("Symbol:");
+    console.log(opts);
       me = this;
       me.location = opts.location;
       me.data = opts.data;
@@ -4667,12 +4668,14 @@
       */
 
       var SymbolType, ll, p, sprops, symbol, _i, _len, _ref21;
-
       me = this;
+        console.log("SymbolGroup:");
+        console.log(me);
       SymbolType = me.type;
       ll = me._evaluate(me.location, data, key);
       ids = me._evaluate(me.ids, data, key);
-      console.log("Gen: " + ids);
+      console.log("Gen: ");
+      console.log(ids);
       if (__type(ll) === 'array') {
         ll = new LonLat(ll[0], ll[1]);
       }
@@ -5915,7 +5918,8 @@ function kdtree() {
 
     function PieChart(opts) {
       var _base2, _ref21, _ref22, _ref23, _ref24, _ref25, _ref26, _ref27, _ref28, _ref29;
-    console.log("Piechart:" + opts);
+    console.log("Piechart:");
+    console.log(opts)
       me = this;
       PieChart.__super__.constructor.call(this, opts);
       me.radius = (_ref21 = opts.radius) != null ? _ref21 : 4;
