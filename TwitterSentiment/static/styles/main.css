@@ -44,3 +44,8 @@ h1 {
 	background-image: url("../images/loading.gif");
 }
 
+button {
+    width: 100%;
+    padding: 3px;
+}
+
