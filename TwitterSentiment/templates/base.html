@@ -32,7 +32,7 @@
         <input type="text" name="start_time" id="start_time" value="" placeholder="Start time">
         <input type="text" name="end_time" id="end_time" value="" placeholder="End time">
 
-   		<button onclick="searchTweets()" id="search-button">Search</button>
+   		<button onclick="searchTweets()" id="search-button" type="button">Search</button>
       </form>
 	</div>
 	
@@ -70,7 +70,10 @@
             return;
         }
 
-         ajaxPost('/get_hashtag/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
+        $('#loading').show();
+        $("#search-button").prop('disabled', true);
+
+        ajaxPost('/get_hashtag/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
             crimeCities = response.results;
             scale = kartograph.scale.log(crimeCities, "count");
 
@@ -89,8 +92,11 @@
                     return desc;
                 }
             });
+
+            $('#loading').hide();
+            $("#search-button").prop('disabled', false);
             console.log(symbols);
-         });
+        });
     }
 
     jQuery(function(){
@@ -119,6 +125,7 @@
     </script>
 
 	<div style="position:relative">
+        <div id="loading"></div>
 		<div id="map"></div>
 	</div>
 </div>
