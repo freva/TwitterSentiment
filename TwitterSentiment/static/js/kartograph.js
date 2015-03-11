@@ -6070,6 +6070,7 @@ function kdtree() {
       });
 	  
 	  p.mouseup(function() {
+	    console.log(me);
 		 displayTweets(me.location, me.ids);
 	  });
 
