@@ -33,10 +33,10 @@ class JsonConverter(object):
 
 
     @staticmethod
-    def searchHashtags(hashtags):
+    def searchHashtags(hashtags, startTime, endTime):
         dictionary = [{"lat": float(t.lat), "lng": float(t.lng), "polarity": [float(t.polarity)]}
                       for hashtag in hashtags
-                      for t in Tweet.objects.filter(hashtag= hashtag)]
+                      for t in Tweet.objects.filter(hashtag= hashtag, created_at__gt=startTime, created_at__lt=endTime)]
 
         results =  JsonConverter.doCluster(dictionary)
         for t in results:

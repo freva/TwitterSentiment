@@ -57,19 +57,23 @@
             resultsLimit: 10,
             preventDuplicates: true,
             placeholderText: "#hashtag",
-            onAdd: function (results) { searchTweets($('#search-field').val()); },
-            onDelete: function (results) { searchTweets($('#search-field').val()); }
+            onAdd: function (results) { searchTweets(); },
+            onDelete: function (results) { searchTweets(); }
 
         });
     });
 
-    function searchTweets(term) {
+    function searchTweets() {
+        var term = $('#search-field').val();
+        var startTime = $('#start_time').val();
+        var endTime = $('#end_time').val();
+
         if (term.length == 0) {
             if (symbols) symbols.remove();
             return;
         }
 
-         ajaxPost('/get_hashtag/', {'hashtag':term}, function(response) {
+         ajaxPost('/get_hashtag/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
             crimeCities = response.results;
             scale = kartograph.scale.log(crimeCities, "count");
 

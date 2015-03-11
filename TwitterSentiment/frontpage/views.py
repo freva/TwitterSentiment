@@ -3,6 +3,7 @@ from django_ajax.decorators import ajax
 from django.shortcuts import render
 from TwitterSentiment.scraper.models import Tweet, Tag, Case
 import json
+import datetime
 from django.http import HttpResponse
 from .aggregate_tweets import JsonConverter
 
@@ -19,6 +20,8 @@ def home(request):
 @ajax
 def get_hashtag(request):
     hashtags = list(set(request.POST.get('hashtag').split(",")))
+    startTime = datetime.datetime.strptime(request.POST.get('startTime'), "%d/%m/%Y %H:%M")
+    endTime = datetime.datetime.strptime(request.POST.get('endTime'), "%d/%m/%Y %H:%M")
 
-    results = JsonConverter.searchHashtags(hashtags)
+    results = JsonConverter.searchHashtags(hashtags, startTime, endTime)
     return {'results': results}
