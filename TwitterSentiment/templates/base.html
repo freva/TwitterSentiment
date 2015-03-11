@@ -138,19 +138,12 @@
 
         console.log(tweetIDs);
 		for (var i = 0; i < tweetIDs.length; i++) {
-            $.ajax({
-                type: 'GET',
-                dataType: 'jsonp',
-                data: {},
-                url: "https://api.twitter.com/1/statuses/oembed.json?id=" + tweetIDs[i] + "&align=center&maxwidth=800&callback=?",
-                error: function (jqXHR, textStatus, errorThrown) { console.log(jqXHR) },
-                success: function (msg) {
-                    tweetHTML += data.html;
-                    console.log(data.html);
+			$.getJSON("https://api.twitter.com/1/statuses/oembed.json?id=" + tweetIDs[i] + "&align=center&maxwidth=800&callback=?", function(data){
+				tweetHTML += data.html;
+				console.log(data.html);
 
-                    if(count++ == tweetIDs.length) openModal(locationAddress, tweetHTML);
-                }
-            });
+				if(count++ == tweetIDs.length) openModal(locationAddress, tweetHTML);
+			});
 		}
 	}
 
