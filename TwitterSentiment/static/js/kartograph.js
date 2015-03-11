@@ -4604,7 +4604,7 @@
       var SymbolType, d, i, id, l, layer, nid, optional, p, required, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref21, _ref22;
 
       me = this;
-      required = ['data', 'location', 'type', 'map'];
+      required = ['data', 'location', 'type', 'map', 'ids'];
       optional = ['filter', 'tooltip', 'click', 'delay', 'sortBy', 'clustering', 'aggregate', 'clusteringOpts', 'mouseenter', 'mouseleave'];
       for (_i = 0, _len = required.length; _i < _len; _i++) {
         p = required[_i];
