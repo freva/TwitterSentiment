@@ -534,7 +534,6 @@ $.TokenList = function (input, url_or_data, settings) {
 
         // Enter new content into resizer and resize input accordingly
         input_resizer.html(_escapeHTML(input_val));
-        input_box.width(input_resizer.width() + 30);
     }
 
     function is_printable_character(keycode) {
