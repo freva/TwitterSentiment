@@ -5924,7 +5924,7 @@ function kdtree() {
       me.border = (_ref26 = opts.border) != null ? _ref26 : false;
       me.borderWidth = (_ref27 = opts.borderWidth) != null ? _ref27 : 2;
       me["class"] = (_ref28 = opts["class"]) != null ? _ref28 : 'piechart';
-      me.tweetIDs = opts.tweetIDs;
+      me.ids = opts.ids;
       if ((_ref29 = (_base2 = Raphael.fn).pieChart) == null) {
         _base2.pieChart = drawPieChart;
       }
