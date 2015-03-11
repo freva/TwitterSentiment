@@ -87,7 +87,7 @@
                 colors: ['#fc575e', '#ffff00', '#7ca668'],
                 border: "#fff",
                 location: function(d) { return [d.lng, d.lat] },
-                tweetIDs: function(d) { return d.ids; },
+                ids: function(d) { return d.ids; },
                 values: function(d) { return d.polarity; },
                 radius: function(d) { return 3+scale(d.count)*maxRad; },
                 titles: function(d) {

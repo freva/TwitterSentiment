@@ -4670,12 +4670,14 @@
       me = this;
       SymbolType = me.type;
       ll = me._evaluate(me.location, data, key);
+      ids = me._evaluate(me.ids, data, key);
       if (__type(ll) === 'array') {
         ll = new LonLat(ll[0], ll[1]);
       }
       sprops = {
         layers: me.layers,
         location: ll,
+        ids: ids,
         data: data,
         key: key != null ? key : me.symbols.length,
         map: me.map
