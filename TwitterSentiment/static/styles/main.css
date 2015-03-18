@@ -18,15 +18,19 @@ h1 {
 
 #sidebar {
 	float:left;
-	width:15%;
+	width:20%;
 	background:#CCC;
 	padding:10px;
 	height:100vh;
 }
 
+#tweets {
+	padding-top: 10px;
+}
+
 #map {
 	float:right;
-	width:80%;
+	width:75%;
 	height:100vh;
 }
 
@@ -48,7 +52,6 @@ button {
     width: 100%;
     padding: 3px;
 }
-
 
 
 /* OVERLAY */
@@ -88,4 +91,25 @@ button {
     text-indent:-9999px;
     top:-7px;
     right:-7px;
+}
+
+h3 {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #555;
+  margin: 8px 0;
+  padding: 8px 5px;
+}
+
+blockquote p {
+  display: inline;
+}
+
+blockquote .date{
+	color: #888;
+	float:right;
 }

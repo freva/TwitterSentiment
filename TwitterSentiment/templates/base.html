@@ -126,39 +126,22 @@
 
 
 	function displayTweets(location, tweetIDs) {
-		var locationAddress = "the middle of no-where...", tweetHTML = "";
-		var count = 0;
+		var locationAddress = "the middle of no-where...";
 
 		new google.maps.Geocoder().geocode({'latLng': new google.maps.LatLng(location.lat, location.lon)}, function(results, status) {
+			$("#tweets").html("");
             if (status == google.maps.GeocoderStatus.OK && results.length > 2)
-                locationAddress = results[results.length-3].formatted_address;
+                locationAddress = results[results.length-3].formatted_address.replace(", USA", "");
 
-			if(count++ == tweetIDs.length) openModal(locationAddress, tweetHTML);
+			$("#tweets").append("<h3>Tweets from:<br/>" + locationAddress + "</h3>");
+			for (var i = 0; i < tweetIDs.length; i++) {
+				var t = new Date(tweetIDs[i].tweetTime * 1000);
+				var form = '<blockquote><p>' + tweetIDs[i].tweetText + '</p>' +
+				'<a href="https://twitter.com/twitter/status/' + tweetIDs[i].tweetID + '" class="date">' + t.dateFormat("d. M H:i") + '</a></blockquote>';
+
+				$("#tweets").append(form);
+			}
         });
-
-        console.log(tweetIDs);
-		for (var i = 0; i < tweetIDs.length; i++) {
-            $.ajax({
-				type: 'GET',
-				dataType: 'jsonp',
-				data: {},
-				url: "https://api.twitter.com/1/statuses/oembed.json?id=" + tweetIDs[i] + "&align=center&maxwidth=800&callback=?",
-				error: function (jqXHR, textStatus, errorThrown) {
-					if(++count == tweetIDs.length) openModal(locationAddress, tweetHTML);
-				},
-				success: function (data) {
-					tweetHTML += data.html;
-					console.log(data.html);
-
-					if(++count == tweetIDs.length) openModal(locationAddress, tweetHTML);
-				}
-			});
-		}
-	}
-
-	function openModal(address, tweets) {
-		var title = "<h1>Tweets from " + address + "</h1>";
-		modal.open({content: title + tweets});
 	}
 
 

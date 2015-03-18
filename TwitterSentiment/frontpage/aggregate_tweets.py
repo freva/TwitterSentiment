@@ -1,6 +1,7 @@
 from TwitterSentiment.scraper.models import Tweet
 from math import sqrt, pow, log
 import random
+import time
 
 class JsonConverter(object):
     @staticmethod
@@ -35,7 +36,7 @@ class JsonConverter(object):
 
     @staticmethod
     def searchHashtags(hashtags, startTime, endTime):
-        dictionary = [{"lat": float(t.lat), "lng": float(t.lng), "polarity": [(float(t.polarity), t.tweet_id)]}
+        dictionary = [{"lat": float(t.lat), "lng": float(t.lng), "polarity": [(float(t.polarity), t.tweet_id, t.text, int(time.mktime(t.created_at.timetuple())))]}
                       for hashtag in hashtags
                       for t in Tweet.objects.filter(hashtag= hashtag, created_at__gt=startTime, created_at__lt=endTime)]
 
@@ -43,13 +44,14 @@ class JsonConverter(object):
         for t in results:
             groups = [[], [], []]
             random.shuffle(t["polarity"])
-            for pol, tweetID in t["polarity"]:
+            for pol, tweetID, tweetText, tweetTime in t["polarity"]:
+                out = {"tweetID": tweetID, "tweetText": tweetText, "tweetTime": tweetTime}
                 if pol < -0.2:
-                    groups[0].append(tweetID)
+                    groups[0].append(out)
                 elif pol < 0.2:
-                    groups[1].append(tweetID)
+                    groups[1].append(out)
                 else:
-                    groups[2].append(tweetID)
+                    groups[2].append(out)
 
             t["count"] = len(t["polarity"])
             t["polarity"] = [0.1+len(group) for group in groups]
