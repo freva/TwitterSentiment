@@ -111,5 +111,6 @@ blockquote p {
 
 blockquote .date{
 	color: #888;
-	float:right;
+	display:block;
+	text-align:right;
 }
