@@ -100,9 +100,20 @@ h3 {
 
 blockquote {
   background: #f9f9f9;
-  border-left: 10px solid #555;
   margin: 8px 0;
   padding: 8px 5px;
+}
+
+blockquote.positive {
+  border-left: 10px solid #7ca668;
+}
+
+blockquote.neutral {
+  border-left: 10px solid #ffff00;
+}
+
+blockquote.negative {
+  border-left: 10px solid #fc575e;
 }
 
 blockquote p {

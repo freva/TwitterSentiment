@@ -61,7 +61,7 @@
             method: 'POST',
             resultsLimit: 10,
             preventDuplicates: true,
-            placeholderText: "#hashtag"
+            placeholderText: "#Hashtag"
         });
     });
 
@@ -127,10 +127,10 @@
 	});
 
 
-	function displayTweets(location, tweetIDs) {
+    function displayTweets(location, tweetIDs, typeID) {
+		var typeClasses = ["positive", "neutral", "negative"];
 		var locationAddress = "the middle of no-where...";
 
-        console.log(tweetIDs);
 		new google.maps.Geocoder().geocode({'latLng': new google.maps.LatLng(location.lat, location.lon)}, function(results, status) {
 			$("#tweets").html("");
             if (status == google.maps.GeocoderStatus.OK && results.length > 2)
@@ -138,9 +138,9 @@
 
 			$("#tweets").append("<h3>Tweets from:<br/>" + locationAddress + "</h3>");
 			for (var i = 0; i < tweetIDs.length; i++) {
-				var t = new Date(tweetIDs[i].tweetTime * 1000);
-				var form = '<blockquote><p>' + tweetIDs[i].tweetText + '</p>' +
-				'<a href="https://twitter.com/twitter/status/' + tweetIDs[i].tweetID + '" class="date">' + t.dateFormat("d. M H:i") + '</a></blockquote>';
+				var t = new Date(1370001284000);
+				var form = '<blockquote class="' + typeClasses[typeID] + '"><p>This is a test. This is a test. This is a test. This is a test.</p>' +
+				'<a href="https://twitter.com/twitter/status/504692034473435136" class="date">' + t.dateFormat("d. M H:i") + '</a></blockquote>';
 
 				$("#tweets").append(form);
 			}
