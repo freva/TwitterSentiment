@@ -55,7 +55,7 @@ class JsonConverter(object):
 
             t["count"] = len(t["polarity"])
             t["polarity"] = [0.1+len(group) for group in groups]
-            t["ids"] = [group[:5] for group in groups]
+            t["ids"] = [sorted(group, key=lambda l:l["tweetTime"], reverse=True)[:4] for group in groups]
 
         return results
 
