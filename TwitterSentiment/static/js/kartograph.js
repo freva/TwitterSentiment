@@ -6068,7 +6068,7 @@ function kdtree() {
       });
 	  
 	  p.mouseup(function() {
-		 displayTweets(me.location, me.ids[j]);
+		 displayTweets(me.location, me.ids[j], j);
 	  });
 
       angle += angleplus;
