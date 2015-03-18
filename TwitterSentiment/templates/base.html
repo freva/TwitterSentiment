@@ -31,12 +31,14 @@
 		<h1>Tittel</h1>
 		<form id="search-form">
          {% csrf_token %}
-   		<input type="text" name="search" id="search-field" placeholder="#hashtag">
-        <input type="text" name="start_time" id="start_time" value="" placeholder="Start time">
-        <input type="text" name="end_time" id="end_time" value="" placeholder="End time">
+            <input type="text" name="search" id="search-field" placeholder="#hashtag">
+            <input type="text" name="start_time" id="start_time" value="" placeholder="Start time">
+            <input type="text" name="end_time" id="end_time" value="" placeholder="End time">
 
-   		<button onclick="searchTweets()" id="search-button" type="button">Search</button>
-      </form>
+            <button onclick="searchTweets()" id="search-button" type="button">Search</button>
+        </form>
+
+        <div id="tweets"></div>
 	</div>
 	
 	<script type="text/javascript">
@@ -128,6 +130,7 @@
 	function displayTweets(location, tweetIDs) {
 		var locationAddress = "the middle of no-where...";
 
+        console.log(tweetIDs);
 		new google.maps.Geocoder().geocode({'latLng': new google.maps.LatLng(location.lat, location.lon)}, function(results, status) {
 			$("#tweets").html("");
             if (status == google.maps.GeocoderStatus.OK && results.length > 2)
