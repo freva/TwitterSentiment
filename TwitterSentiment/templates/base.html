@@ -23,7 +23,6 @@
     <script type="text/javascript" src="{% static 'js/jquery.tokeninput.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.datetimepicker.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/overlay.js' %}"></script>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
@@ -33,8 +32,8 @@
 		<form id="search-form">
          {% csrf_token %}
             <input type="text" name="search" id="search-field" placeholder="#hashtag">
-            <input type="text" name="start_time" id="start_time" value="" placeholder="Start time">
-            <input type="text" name="end_time" id="end_time" value="" placeholder="End time">
+            <input type="text" name="start_time" id="start_time" value="01/01/2015 00:00" placeholder="Start time">
+            <input type="text" name="end_time" id="end_time" value="31/12/2015 23:59" placeholder="End time">
 
             <select id="displayType">
                 <option value="map">Map</option>
@@ -70,10 +69,6 @@
             });
         });
 
-
-        var minDateStr = "01/01/2015 00:00", maxDateStr = "31/12/2015 23:59";
-		$('#start_time').val(minDateStr);
-		$('#end_time').val(maxDateStr);
 
 		jQuery('#start_time').datetimepicker({
 			format: 'd/m/Y H:i',
@@ -181,7 +176,7 @@
         $('#loading').show();
         $("#search-button").prop('disabled', true);
 
-        var displayType =  $('#displayType').find(":selected").text();
+        var displayType =  $('#displayType').find(":selected").val();
         if(displayType == "map") {
             $("#chart").hide();
             $("#map").show();
