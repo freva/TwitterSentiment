@@ -81,7 +81,7 @@ class Streamer(tweepy.StreamListener):
 							)
 		except Exception as e:
 			try:
-				logger.info("Text: %s" %(text))
+				logger.info("Text: %s" %(status.text))
 			except:
 				pass
 			logger.exception('Exception raised when parsing tweet')
