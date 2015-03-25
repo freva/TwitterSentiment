@@ -131,9 +131,9 @@
 
                     $.each(this.points, function () {
                         if(this.series.name == "Frequency") {
-                            s += '<br/>' + this.series.name + ': ' + this.y + ' tweets';
+                            out += '<br/>' + this.series.name + ': ' + this.y + ' tweets';
                         } else {
-                            s += '<br/>' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 2);
+                            out += '<br/>' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 2);
                         }
                     });
                     return out;
