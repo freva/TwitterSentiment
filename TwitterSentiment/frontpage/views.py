@@ -28,9 +28,7 @@ def get_hashtag(request):
 
 
 @ajax
-def search_hashtag(request):
-    query = request.GET.get('q')
-
+def search_hashtag(request, query):
     out = [{"name": label, "id": ','.join(load_cases.CASES[label])} for label in load_cases.CASES.keys() if query in label]
     out += [{"name": "#" + hashtag, "id": hashtag}
                     for label in load_cases.CASES.keys() for hashtag in load_cases.CASES[label] if query in hashtag]
