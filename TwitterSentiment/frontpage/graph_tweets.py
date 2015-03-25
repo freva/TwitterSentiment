@@ -11,6 +11,8 @@ def graphHashtags(hashtags, startTime, endTime):
     startTime = min(tweets, key=lambda l:l["time"])["time"]
     startTime -= startTime%3600
     endTime = max(tweets, key=lambda l:l["time"])["time"]
+    endTime += 3600 - (endTime%3600)
+
     timeDiff = endTime - startTime
 
     intervals = [900, 1800, 3600, 7200, 14400, 28800, 86400, 259200, 604800, 1209600, 2419200]
