@@ -187,7 +187,7 @@
             $("#map").hide();
 
 
-            ajaxPost('/get_hashtag/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
+            ajaxPost('/get_graph/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
                 console.log(response);
                 chartOptions.series = response["yAxis"];
                 chartOptions.xAxis = response["xAxis"];

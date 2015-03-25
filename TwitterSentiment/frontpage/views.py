@@ -38,8 +38,8 @@ def get_tokens(request):
 
 @ajax
 def graph_hashtag(request):
-    hashtags = list(set(request.GET.get('hashtag', '').split(",")))
-    startTime = datetime.datetime.strptime(request.GET.get('from', ''), "%d/%m/%Y %H:%M")
-    endTime = datetime.datetime.strptime(request.GET.get('to', ''), "%d/%m/%Y %H:%M")
+    hashtags = list(set(request.POST.get('hashtag').split(",")))
+    startTime = datetime.datetime.strptime(request.POST.get('startTime'), "%d/%m/%Y %H:%M")
+    endTime = datetime.datetime.strptime(request.POST.get('endTime'), "%d/%m/%Y %H:%M")
 
     return graphHashtags(hashtags, startTime, endTime)
