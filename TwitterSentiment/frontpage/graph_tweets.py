@@ -21,7 +21,7 @@ def graphHashtags(hashtags, startTime, endTime):
 
 
     xAxis = {"categories": labels, "labels": {"format": '{value:%e %b %H:%M}'}}
-    yAxis = [{"name": "Polarity", "type": "spline", "data": [sum(pol)/len(pol) for pol in polar]},
+    yAxis = [{"name": "Polarity", "type": "spline", "data": [sum(pol)/len(pol) if len(pol)>0 else 0 for pol in polar]},
            {"name": "Frequency", "type": "column", "yAxis": 1, "data": [len(pol) for pol in polar]}]
 
     return {"xAxis": xAxis, "yAxis": yAxis}
