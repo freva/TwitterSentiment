@@ -9,7 +9,7 @@ def graphHashtags(hashtags, startTime, endTime):
                       for t in Tweet.objects.filter(hashtag= hashtag, created_at__gt=startTime, created_at__lt=endTime)]
 
     startTime = mktime(startTime.timetuple())
-    timeDiff = mktime(endTime.timetuple) - startTime
+    timeDiff = mktime(endTime.timetuple()) - startTime
     intervals = [900, 1800, 3600, 7200, 14400, 28800, 86400, 259200, 604800, 1209600, 2419200]
     intervalSize = findFirstLargerOrEqual(timeDiff/15, intervals)
 
@@ -20,7 +20,7 @@ def graphHashtags(hashtags, startTime, endTime):
         polar[(tweet["time"] - startTime)//intervalSize].append(tweet["polarity"])
 
 
-    xAxis = {"categories": labels, "labels": {"format": '{value:%e %b %H:%M:%S}'}}
+    xAxis = {"categories": labels, "labels": {"format": '{value:%e %b %H:%M}'}}
     yAxis = [{"name": "Polarity", "type": "spline", "data": polar},
            {"name": "Frequency", "type": "column", "yAxis": 1, "data": [len(pol) for pol in polar]}]
 
