@@ -96,7 +96,7 @@
 			},
 			yAxis: [{
 				labels: {
-				    format: '{value,.2f}',
+				    format: '{value:.2f}',
 					style: {
 						color: Highcharts.getOptions().colors[1]
 					}
@@ -126,7 +126,8 @@
 
 			}],
 			tooltip: {
-				shared: true
+				shared: true,
+				pointFormat: "Value: {point.y:,.0f} mm"
 			},
 			legend: {
 				layout: 'vertical',
