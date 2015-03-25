@@ -63,6 +63,10 @@
             preventDuplicates: true,
             placeholderText: "#Hashtag"
         });
+        ajaxGet('/search/?q=hei', function(response) {
+            console.log("Get")
+            console.log(response)
+        });
     });
 
     function searchTweets() {
