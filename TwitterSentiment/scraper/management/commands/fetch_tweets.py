@@ -80,6 +80,10 @@ class Streamer(tweepy.StreamListener):
 								subjectivity=score.subjectivity
 							)
 		except Exception as e:
+			try:
+				logger.info("Text: %s" %(text))
+			except:
+				pass
 			logger.exception('Exception raised when parsing tweet')
 
 class Worker(object):
