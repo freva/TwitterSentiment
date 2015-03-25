@@ -22,7 +22,8 @@ def graphHashtags(hashtags, startTime, endTime):
     polar, labels = [[] for i in xrange(numBins)], [(startTime+intervalSize*i)*1000 for i in xrange(numBins)]
 
     for tweet in tweets:
-        polar[(tweet["time"] - int(startTime))//intervalSize].append(tweet["polarity"])
+        index = (tweet["time"] - startTime)//intervalSize
+        polar[index if index < numBins else -1].append(tweet["polarity"])
 
 
     xAxis = {"categories": labels, "labels": {"format": '{value:%e %b %H:%M}'}}
