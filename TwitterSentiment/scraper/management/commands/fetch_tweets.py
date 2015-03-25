@@ -4,6 +4,8 @@ from textblob import TextBlob
 from time import time
 import tweepy
 import logging
+import re
+
 logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):	
@@ -55,18 +57,19 @@ class Streamer(tweepy.StreamListener):
 		try:
 			if status.coordinates:
 				if status.entities['hashtags']:
+					text = self.purgeEmoji(status.text)
 					hashtag = self.find_hashtag(status.entities['hashtags'])
 					if hashtag:
 						try:
 							place = status.place.full_name.split(",")
 						except:
 							place = ""
-						score = TextBlob(status.text)
+						score = TextBlob(text)
 						self.last_id += 1
 						Tweet.objects.create(
 								id=self.last_id,
 								tweet_id=status.id,
-								text=status.text,
+								text=text,
 								tag=hashtag,
 								hashtag=hashtag.name,
 								created_at=status.created_at,
@@ -85,6 +88,24 @@ class Streamer(tweepy.StreamListener):
 			except:
 				pass
 			logger.exception('Exception raised when parsing tweet')
+
+	def purgeEmoji(self, text):
+		try:
+			# Wide UCS-4 build
+			myre = re.compile(u'['
+				u'\U0001F300-\U0001F64F'
+				u'\U0001F680-\U0001F6FF'
+				u'\u2600-\u26FF\u2700-\u27BF]+', 
+				re.UNICODE)
+		except re.error:
+			# Narrow UCS-2 build
+			myre = re.compile(u'('
+				u'\ud83c[\udf00-\udfff]|'
+				u'\ud83d[\udc00-\ude4f\ude80-\udeff]|'
+				u'[\u2600-\u26FF\u2700-\u27BF])+', 
+				re.UNICODE)
+		return myre.sub('', text)
+
 
 class Worker(object):
 	def __init__(self):
