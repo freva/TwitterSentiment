@@ -27,8 +27,8 @@ def graphHashtags(hashtags, startTime, endTime):
 
 
     averages = [sum(pol)/len(pol) if len(pol)>0 else 0 for pol in polar]
-    sumOfSquares = [sum([pow(i-averages[avgIndex], 2)/len(polar[avgIndex])]) for avgIndex in xrange(len(averages)) for i in polar[avgIndex]]
-    confIntSize = [1.96*pow(sumOfSquares[i]/len(polar[i]), 0.5) for i in xrange(len(sumOfSquares))]
+    sumOfSquares = [sum([pow(i-averages[avgIndex], 2)/len(polar[avgIndex]) if len(polar[avgIndex]) else 0 for i in polar[avgIndex]]) for avgIndex in xrange(len(averages))]
+    confIntSize = [1.96*pow(sumOfSquares[i]/len(polar[i]) if len(polar[i]) else 0, 0.5) for i in xrange(len(sumOfSquares))]
 
     xAxis = {"categories": labels, "labels": {"format": '{value:%e %b %H:%M}'}}
     yAxis = [{"name": "Polarity", "type": "spline", "data": averages},
