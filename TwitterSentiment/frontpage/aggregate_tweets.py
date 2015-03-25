@@ -43,9 +43,9 @@ class JsonConverter(object):
         results =  JsonConverter.doCluster(dictionary)
         for t in results:
             groups = [[], [], []]
-            random.shuffle(t["polarity"])
+
             for pol, tweetID, tweetText, tweetTime in t["polarity"]:
-                out = {"tweetID": tweetID, "tweetText": tweetText, "tweetTime": tweetTime}
+                out = {"tweetID": tweetID, "tweetText": tweetText, "tweetTime": tweetTime, "tweetPolarity": pol}
                 if pol < -0.2:
                     groups[0].append(out)
                 elif pol < 0.2:

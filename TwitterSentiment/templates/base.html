@@ -14,7 +14,7 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
     <script type="text/javascript" src="{% static 'js/raphael-2.1.0.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/kartograph.js' %}"></script>
@@ -23,7 +23,6 @@
     <script type="text/javascript" src="{% static 'js/jquery.tokeninput.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.datetimepicker.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/overlay.js' %}"></script>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
@@ -33,8 +32,13 @@
 		<form id="search-form">
          {% csrf_token %}
             <input type="text" name="search" id="search-field" placeholder="#hashtag">
-            <input type="text" name="start_time" id="start_time" value="" placeholder="Start time">
-            <input type="text" name="end_time" id="end_time" value="" placeholder="End time">
+            <input type="text" name="start_time" id="start_time" value="01/01/2015 00:00" placeholder="Start time">
+            <input type="text" name="end_time" id="end_time" value="31/12/2015 23:59" placeholder="End time">
+
+            <select id="displayType">
+                <option value="map">Map</option>
+                <option value="chart">Chart</option>
+		    </select>
 
             <button onclick="searchTweets()" id="search-button" type="button">Search</button>
         </form>
@@ -43,7 +47,7 @@
 	</div>
 	
 	<script type="text/javascript">
-    var scale, symbols, map, maxRad = 30;
+    var scale, symbols, map, maxRad = 30, chartOptions;
 
     $(function() {
         map = window.m = kartograph.map('#map');
@@ -55,66 +59,16 @@
                 }
             });
         });
-    });
 
-    $(document).ready(function() {
-        $("#search-field").tokenInput("http://eitbigdata.herokuapp.com/search/", {
-            method: 'POST',
-            resultsLimit: 10,
-            preventDuplicates: true,
-            placeholderText: "#Hashtag"
-        });
-        ajaxGet('/search/?q=hei', function(response) {
-            console.log("Get")
-            console.log(response)
-        });
-    });
 
-    function searchTweets() {
-        var term = $('#search-field').val();
-        var startTime = $('#start_time').val();
-        var endTime = $('#end_time').val();
-
-        if (term.length == 0) {
-            if (symbols) symbols.remove();
-            return;
-        }
-
-        $('#loading').show();
-        $("#search-button").prop('disabled', true);
-
-        ajaxPost('/get_hashtag/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
-            crimeCities = response.results;
-            scale = kartograph.scale.log(crimeCities, "count");
-
-            if (symbols) symbols.remove();
-            symbols = map.addSymbols({
-                type: kartograph.PieChart,
-                data: crimeCities,
-                colors: ['#fc575e', '#ffff00', '#7ca668'],
-                border: "#fff",
-                location: function(d) { return [d.lng, d.lat] },
-                ids: function(d) { return d.ids; },
-                values: function(d) { return d.polarity; },
-                radius: function(d) { return 3+scale(d.count)*maxRad; },
-                titles: function(d) {
-                    var desc = [];
-                    for(var i=0; i<d.polarity.length; i++) desc.push(Math.floor(d.polarity[i]) + " out of " + d.count);
-                    return desc;
-                }
+        ajaxGet('/get_tokens/', function(response) {
+            $("#search-field").tokenInput(response, {
+                resultsLimit: 10,
+                preventDuplicates: true,
+                placeholderText: "#Hashtag"
             });
-
-            $('#loading').hide();
-            $("#search-button").prop('disabled', false);
-            console.log(symbols);
         });
-    }
 
-    jQuery(function(){
-		var minDateStr = "01/01/2015 00:00", maxDateStr = "31/12/2015 23:59";
-
-		$('#start_time').val(minDateStr);
-		$('#end_time').val(maxDateStr);
 
 		jQuery('#start_time').datetimepicker({
 			format: 'd/m/Y H:i',
@@ -129,7 +83,121 @@
 			closeOnDateSelect: true,
 			dayOfWeekStart: 1
 		});
-	});
+
+
+
+        chartOptions = {
+			chart: {
+			    renderTo: 'chart',
+				zoomType: 'xy'
+			},
+			title: {
+				text: 'Tweet frequency and polarity history'
+			},
+			yAxis: [{
+				labels: {
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					}
+				},
+				title: {
+					text: 'Polarity',
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					}
+				},
+				opposite: true
+
+			}, {
+				gridLineWidth: 0,
+				title: {
+					text: 'Frequency',
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					}
+				},
+				labels: {
+					format: '{value} tweets',
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					}
+				}
+
+			}],
+			tooltip: {
+				shared: true
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'left',
+				x: 80,
+				verticalAlign: 'top',
+				y: 55,
+				floating: true,
+				backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+			}
+		};
+   });
+
+
+    function searchTweets() {
+        var term = $('#search-field').val();
+        var startTime = $('#start_time').val();
+        var endTime = $('#end_time').val();
+
+        if (term.length == 0) {
+            if (symbols) symbols.remove();
+            return;
+        }
+
+        $('#loading').show();
+        $("#search-button").prop('disabled', true);
+
+        var displayType =  $('#displayType').find(":selected").val();
+        if(displayType == "map") {
+            $("#chart").hide();
+            $("#map").show();
+
+            ajaxPost('/get_hashtag/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
+                crimeCities = response.results;
+                scale = kartograph.scale.log(crimeCities, "count");
+
+                if (symbols) symbols.remove();
+                symbols = map.addSymbols({
+                    type: kartograph.PieChart,
+                    data: crimeCities,
+                    colors: ['#fc575e', '#ffff00', '#7ca668'],
+                    border: "#fff",
+                    location: function(d) { return [d.lng, d.lat] },
+                    ids: function(d) { return d.ids; },
+                    values: function(d) { return d.polarity; },
+                    radius: function(d) { return 3+scale(d.count)*maxRad; },
+                    titles: function(d) {
+                        var desc = [];
+                        for(var i=0; i<d.polarity.length; i++) desc.push(Math.floor(d.polarity[i]) + " out of " + d.count);
+                        return desc;
+                    }
+                });
+
+                $('#loading').hide();
+                $("#search-button").prop('disabled', false);
+            });
+        } else {
+            $("#chart").show();
+            $("#map").hide();
+
+
+            ajaxPost('/get_graph/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
+                console.log(response);
+                chartOptions.series = response["yAxis"];
+                chartOptions.xAxis = response["xAxis"];
+                new Highcharts.Chart(chartOptions);
+
+                $('#loading').hide();
+                $("#search-button").prop('disabled', false);
+            });
+        }
+    }
 
 
 	function displayTweets(location, tweetIDs, typeID) {
@@ -146,7 +214,9 @@
 			for (var i = 0; i < tweetIDs.length; i++) {
 				var t = new Date(tweetIDs[i].tweetTime * 1000);
 				var form = '<blockquote class="' + typeClasses[typeID] + '"><p>' + tweetIDs[i].tweetText + '</p>' +
-				'<a href="https://twitter.com/twitter/status/' + tweetIDs[i].tweetID + '" class="date">' + t.dateFormat("d. M H:i") + '</a></blockquote>';
+				'<div class="metadata">Polarity: ' + tweetIDs[i].tweetPolarity +
+				'<a href="https://twitter.com/twitter/status/' + tweetIDs[i].tweetID + '" class="date">' + t.dateFormat("d. M H:i") + '</a>' +
+				'</div></blockquote>';
 
 				$("#tweets").append(form);
 			}
@@ -158,8 +228,11 @@
     </script>
 
 	<div style="position:relative">
-        <div id="loading"></div>
-		<div id="map"></div>
+        <div id="container">
+			<div id="loading"></div>
+			<div id="map"></div>
+			<div id="chart"></div>
+		</div>
 	</div>
 </div>
 
