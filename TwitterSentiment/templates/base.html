@@ -123,7 +123,14 @@
 					}
 				}
 
-			}],
+			}, {
+                type: 'arearange',
+                lineWidth: 0,
+                linkedTo: ':previous',
+                color: Highcharts.getOptions().colors[0],
+                fillOpacity: 0.3,
+                zIndex: 0
+            }],
 			tooltip: {
 				shared: true,
 				formatter: function() {
@@ -131,7 +138,7 @@
 
                     $.each(this.points, function () {
                         if(this.series.name == "Frequency") {
-                            out += '<br/>' + this.series.name + ': ' + this.y + ' tweets';
+                            out += '<br/>' + this.y + ' tweets';
                         } else {
                             out += '<br/>' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 2);
                         }
