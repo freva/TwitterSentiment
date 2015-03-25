@@ -145,7 +145,7 @@
 			for (var i = 0; i < tweetIDs.length; i++) {
 				var t = new Date(tweetIDs[i].tweetTime * 1000);
 				var form = '<blockquote class="' + typeClasses[typeID] + '"><p>' + tweetIDs[i].tweetText + '</p>' +
-				'<div class="metadata">Polarity: ' + t.tweetPolarity + ' +
+				'<div class="metadata">Polarity: ' + t.tweetPolarity +
 				'<a href="https://twitter.com/twitter/status/' + tweetIDs[i].tweetID + '" class="date">' + t.dateFormat("d. M H:i") + '</a>' +
 				'</div></blockquote>';
 
