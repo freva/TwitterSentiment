@@ -28,12 +28,10 @@ def get_hashtag(request):
     return {'results': results}
 
 @ajax
-def search_hashtag(request):
-    query = request.GET.get('q', '')
-
-    out = [{"name": label, "id": ','.join(load_cases.CASES[label])} for label in load_cases.CASES.keys() if query in label]
+def get_tokens(request):
+    out = [{"name": label, "id": ','.join(load_cases.CASES[label])} for label in load_cases.CASES.keys()]
     out += [{"name": "#" + hashtag, "id": hashtag}
-                    for label in load_cases.CASES.keys() for hashtag in load_cases.CASES[label] if query in hashtag]
+                    for label in load_cases.CASES.keys() for hashtag in load_cases.CASES[label]]
     return out
 
 

@@ -946,7 +946,7 @@ $.TokenList = function (input, url_or_data, settings) {
                 };
 
                 // Make the request
-                ajax(ajax_params);
+                $.ajax(ajax_params);
             } else if($(input).data("settings").local_data) {
                 // Do the search through local data
                 var results = $.grep($(input).data("settings").local_data, function (row) {
