@@ -17,6 +17,7 @@ def home(request):
     return render(request, 'base.html',
         {'tags': json.dumps(searchTerms)})
 
+
 @ajax
 def get_hashtag(request):
     hashtags = list(set(request.POST.get('hashtag').split(",")))
@@ -33,7 +34,7 @@ def search_hashtag(request):
     out = [{"name": label, "id": ','.join(load_cases.CASES[label])} for label in load_cases.CASES.keys() if query in label]
     out += [{"name": "#" + hashtag, "id": hashtag}
                     for label in load_cases.CASES.keys() for hashtag in load_cases.CASES[label] if query in hashtag]
-    return [query, out]
+    return out
 
 
 @ajax
