@@ -26,7 +26,6 @@ def get_hashtag(request):
     results = JsonConverter.searchHashtags(hashtags, startTime, endTime)
     return {'results': results}
 
-
 @ajax
 def search_hashtag(request):
     query = request.GET.get('q', '')
