@@ -123,8 +123,11 @@ blockquote p {
   display: inline;
 }
 
+blockquote .metadata{
+	color: #888;
+}
+
 blockquote .date{
 	color: #888;
-	display:block;
-	text-align:right;
+	float:right;
 }
