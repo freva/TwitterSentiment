@@ -57,18 +57,17 @@
         });
     });
 
+
     $(document).ready(function() {
-        $("#search-field").tokenInput("http://eitbigdata.herokuapp.com/search/", {
-            method: 'POST',
-            resultsLimit: 10,
-            preventDuplicates: true,
-            placeholderText: "#Hashtag"
-        });
-        ajaxGet('/search/?q=hei', function(response) {
-            console.log("Get")
-            console.log(response)
+        ajaxGet('/get_tokens/', function(response) {
+            $("#search-field").tokenInput(response, {
+                resultsLimit: 10,
+                preventDuplicates: true,
+                placeholderText: "#Hashtag"
+            });
         });
     });
+
 
     function searchTweets() {
         var term = $('#search-field').val();
