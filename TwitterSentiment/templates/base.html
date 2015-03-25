@@ -47,7 +47,7 @@
 	</div>
 	
 	<script type="text/javascript">
-    var scale, symbols, map, maxRad = 30;
+    var scale, symbols, map, maxRad = 30, chartOptions;
 
     $(function() {
         map = window.m = kartograph.map('#map');
@@ -86,43 +86,38 @@
 
 
 
-        $('#chart').highcharts({
+        chartOptions = {
 			chart: {
+			    renderTo: 'chart',
 				zoomType: 'xy'
 			},
 			title: {
 				text: 'Tweet frequency and polarity history'
 			},
-			xAxis: [{
-				categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-					'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-				crosshair: true
-			}],
-			yAxis: [{ // Primary yAxis
+			yAxis: [{
 				labels: {
-					format: '{value}°C',
 					style: {
-						color: Highcharts.getOptions().colors[2]
+						color: Highcharts.getOptions().colors[1]
 					}
 				},
 				title: {
-					text: 'Temperature',
+					text: 'Polarity',
 					style: {
-						color: Highcharts.getOptions().colors[2]
+						color: Highcharts.getOptions().colors[1]
 					}
 				},
 				opposite: true
 
-			}, { // Secondary yAxis
+			}, {
 				gridLineWidth: 0,
 				title: {
-					text: 'Rainfall',
+					text: 'Frequency',
 					style: {
 						color: Highcharts.getOptions().colors[0]
 					}
 				},
 				labels: {
-					format: '{value} mm',
+					format: '{value} tweets',
 					style: {
 						color: Highcharts.getOptions().colors[0]
 					}
@@ -140,25 +135,7 @@
 				y: 55,
 				floating: true,
 				backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-			},
-			series: [{
-				name: 'Rainfall',
-				type: 'column',
-				yAxis: 1,
-				data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
-				tooltip: {
-					valueSuffix: ' mm'
-				}
-
-			},
-			{
-				name: 'Temperature',
-				type: 'spline',
-				data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
-				tooltip: {
-					valueSuffix: ' °C'
-				}
-			}]
+			}
 		});
    });
 
@@ -208,6 +185,16 @@
         } else {
             $("#chart").show();
             $("#map").hide();
+
+
+            ajaxPost('/get_hashtag/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
+                chartOptions.series = response["yAxis"];
+                chartOptions.xAxis = response["xAxis"];
+                new Highcharts.Chart(chartOptions);
+
+                 $('#loading').hide();
+                $("#search-button").prop('disabled', false);
+            });
         }
     }
 

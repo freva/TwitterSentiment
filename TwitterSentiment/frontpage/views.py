@@ -1,4 +1,5 @@
 from TwitterSentiment.scraper.management.commands import load_cases
+from TwitterSentiment.frontpage.graph_tweets import graphHashtags
 from django_ajax.decorators import ajax
 from django.shortcuts import render
 from TwitterSentiment.scraper.models import Tweet, Tag, Case
@@ -41,4 +42,4 @@ def graph_hashtag(request):
     startTime = datetime.datetime.strptime(request.GET.get('from', ''), "%d/%m/%Y %H:%M")
     endTime = datetime.datetime.strptime(request.GET.get('to', ''), "%d/%m/%Y %H:%M")
 
-    return [hashtags, startTime, endTime]
+    return graphHashtags(hashtags, startTime, endTime)
