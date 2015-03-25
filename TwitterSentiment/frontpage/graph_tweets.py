@@ -14,7 +14,7 @@ def graphHashtags(hashtags, startTime, endTime):
     timeDiff = endTime - startTime
 
     intervals = [900, 1800, 3600, 7200, 14400, 28800, 86400, 259200, 604800, 1209600, 2419200]
-    intervalSize = findFirstLargerOrEqual(timeDiff/15, intervals)
+    intervalSize = findFirstLargerOrEqual(timeDiff/25, intervals)
 
     numBins = int(ceil(timeDiff/intervalSize))
     polar, labels = [[] for i in xrange(numBins)], [startTime+intervalSize*i for i in xrange(numBins)]
