@@ -2,8 +2,6 @@ from TwitterSentiment.scraper.models import Tweet
 from time import mktime
 from math import ceil
 
-import os, sys
-
 
 def graphHashtags(hashtags, startTime, endTime):
     tweets = [{"polarity": float(t.polarity), "time": int(mktime(t.created_at.timetuple()))}
@@ -23,11 +21,10 @@ def graphHashtags(hashtags, startTime, endTime):
 
 
     xAxis = {"categories": labels, "labels": {"format": '{value:%e %b %H:%M}'}}
-    yAxis = [{"name": "Polarity", "type": "spline", "data": polar},
+    yAxis = [{"name": "Polarity", "type": "spline", "data": [sum(pol)/len(pol) for pol in polar]},
            {"name": "Frequency", "type": "column", "yAxis": 1, "data": [len(pol) for pol in polar]}]
 
     return {"xAxis": xAxis, "yAxis": yAxis}
-
 
 
 def findFirstLargerOrEqual(num, sortedList):
