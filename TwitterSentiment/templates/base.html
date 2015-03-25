@@ -96,7 +96,7 @@
 			},
 			yAxis: [{
 				labels: {
-				    format: '{value:.2f} polarity',
+				    format: '{value:.2f}',
 					style: {
 						color: Highcharts.getOptions().colors[1]
 					}
@@ -112,13 +112,12 @@
 			}, {
 				gridLineWidth: 0,
 				title: {
-					text: 'Frequency',
+					text: 'Number of tweets',
 					style: {
 						color: Highcharts.getOptions().colors[0]
 					}
 				},
 				labels: {
-					format: '{value} tweets',
 					style: {
 						color: Highcharts.getOptions().colors[0]
 					}
@@ -128,8 +127,16 @@
 			tooltip: {
 				shared: true,
 				formatter: function() {
-                    return  '<b>' + Highcharts.dateFormat('%e %b %H:%M', new Date(this.x))
-                    + '</b><br/>' + this.y + '<br/>';
+                    var out =  '<b>' + Highcharts.dateFormat('%e %b %H:%M', new Date(this.x)) + '</b>';
+
+                    $.each(this.points, function () {
+                        if(this.series.name == "Frequency") {
+                            s += '<br/>' + this.series.name + ': ' + this.y + ' tweets';
+                        } else {
+                            s += '<br/>' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 2);
+                        }
+                    });
+                    return out;
                 }
 			},
 			legend: {
