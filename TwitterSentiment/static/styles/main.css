@@ -7,7 +7,7 @@ h1 {
     line-height: 40px;
 }
 
-#sidebar input {
+#sidebar input, #sidebar select {
 	width: 100%;
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
@@ -28,7 +28,7 @@ h1 {
 	padding-top: 10px;
 }
 
-#map {
+#container {
 	float:right;
 	width:74%;
 	height:100vh;
@@ -36,7 +36,6 @@ h1 {
 
 #map {
 	height:100%;
-	display:none;
 }
 
 #chart {
@@ -108,25 +107,25 @@ h3 {
 }
 
 blockquote {
-  background: #f9f9f9;
-  margin: 8px 0;
-  padding: 8px 5px;
+    background: #f9f9f9;
+    margin: 8px 0;
+    padding: 8px 5px;
 }
 
 blockquote.positive {
-  border-left: 10px solid #7ca668;
+    border-left: 10px solid #7ca668;
 }
 
 blockquote.neutral {
-  border-left: 10px solid #ffff00;
+    border-left: 10px solid #ffff00;
 }
 
 blockquote.negative {
-  border-left: 10px solid #fc575e;
+    border-left: 10px solid #fc575e;
 }
 
 blockquote p {
-  display: inline;
+    display: inline;
 }
 
 blockquote .metadata{
