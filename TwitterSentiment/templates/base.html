@@ -136,7 +136,7 @@
 				floating: true,
 				backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
 			}
-		});
+		};
    });
 
 
@@ -188,11 +188,12 @@
 
 
             ajaxPost('/get_hashtag/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
+                console.log(response);
                 chartOptions.series = response["yAxis"];
                 chartOptions.xAxis = response["xAxis"];
                 new Highcharts.Chart(chartOptions);
 
-                 $('#loading').hide();
+                $('#loading').hide();
                 $("#search-button").prop('disabled', false);
             });
         }
