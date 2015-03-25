@@ -2,6 +2,8 @@ from TwitterSentiment.scraper.models import Tweet
 from time import mktime
 from math import ceil
 
+import os, sys
+
 
 def graphHashtags(hashtags, startTime, endTime):
     tweets = [{"polarity": float(t.polarity), "time": int(mktime(t.created_at.timetuple()))}
@@ -13,11 +15,11 @@ def graphHashtags(hashtags, startTime, endTime):
     intervals = [900, 1800, 3600, 7200, 14400, 28800, 86400, 259200, 604800, 1209600, 2419200]
     intervalSize = findFirstLargerOrEqual(timeDiff/15, intervals)
 
-    numBins = ceil(timeDiff/intervalSize)
-    polar, labels = [[]*numBins], [startTime+intervalSize*i for i in numBins]
+    numBins = int(ceil(timeDiff/intervalSize))
+    polar, labels = [[] for i in xrange(numBins)], [startTime+intervalSize*i for i in xrange(numBins)]
 
     for tweet in tweets:
-        polar[(tweet["time"] - startTime)//intervalSize].append(tweet["polarity"])
+        polar[(tweet["time"] - int(startTime))//intervalSize].append(tweet["polarity"])
 
 
     xAxis = {"categories": labels, "labels": {"format": '{value:%e %b %H:%M}'}}
