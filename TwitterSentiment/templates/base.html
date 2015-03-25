@@ -96,7 +96,7 @@
 			},
 			yAxis: [{
 				labels: {
-				    format: '{value:.2f}',
+				    format: '{value:.2f} polarity',
 					style: {
 						color: Highcharts.getOptions().colors[1]
 					}
@@ -127,7 +127,10 @@
 			}],
 			tooltip: {
 				shared: true,
-				pointFormat: "Value: {point.y:,.0f} mm"
+				formatter: function() {
+                    return  '<b>' + Highcharts.dateFormat('%e %b %H:%M', new Date(this.x))
+                    + '</b><br/>' + this.y + '<br/>';
+                }
 			},
 			legend: {
 				layout: 'vertical',
