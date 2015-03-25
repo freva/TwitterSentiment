@@ -58,7 +58,7 @@
     });
 
     $(document).ready(function() {
-        $("#search-field").tokenInput( {{ tags|safe }}, {
+        $("#search-field").tokenInput("http://eitbigdata.herokuapp.com/search/", {
             method: 'POST',
             resultsLimit: 10,
             preventDuplicates: true,
