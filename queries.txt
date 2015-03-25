@@ -1,0 +1,2 @@
+# Delete godbless guy
+Tweet.objects.filter(lat__icontains=31, lng__icontains=-100, tag__name__iexact="godbless").delete()

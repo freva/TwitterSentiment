@@ -20,7 +20,23 @@ class Command(BaseCommand):
 		self.calculate_tag_stats()
 		logger.info("Completed: calculate_tag_stats() in %s seconds" %(round(time() - start, 2)))
 		logger.info("Shutting down stats calculator")
+		self.toggleActiveStats()
+
 		self.start_scraper()
+
+	def toggleActiveStats(self):
+		for t in TagStats.objects.filter(active=True):
+			t.toggle()
+		for c in CaseStats.objects.filter(active=True):
+			c.toggle()
+
+		for t in Tag.objects.all():
+			x = TagStats.objects.filter(tag=t).last()
+			x.toggle()
+
+		for c in Case.objects.all():
+			x = CaseStats.objects.filter(case=c).last()
+			x.toggle()		
 
 	def stop_scraper(self):
 		logger.info("Stopping scraper")
