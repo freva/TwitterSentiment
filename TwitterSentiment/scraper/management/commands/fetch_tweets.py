@@ -57,7 +57,10 @@ class Streamer(tweepy.StreamListener):
 				if status.entities['hashtags']:
 					hashtag = self.find_hashtag(status.entities['hashtags'])
 					if hashtag:
-						place = status.place.full_name.split(",")
+						try:
+							place = status.place.full_name.split(",")
+						except:
+							place = ""
 						score = TextBlob(status.text)
 						self.last_id += 1
 						Tweet.objects.create(
