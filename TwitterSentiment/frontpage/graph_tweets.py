@@ -8,8 +8,11 @@ def graphHashtags(hashtags, startTime, endTime):
                       for hashtag in hashtags
                       for t in Tweet.objects.filter(hashtag= hashtag, created_at__gt=startTime, created_at__lt=endTime)]
 
-    startTime = mktime(startTime.timetuple())
-    timeDiff = mktime(endTime.timetuple()) - startTime
+    startTime = mktime(min(tweets, key=lambda l:l["time"])["time"].timetuple())
+    startTime -= startTime%3600
+    endTime = mktime(max(tweets, key=lambda l:l["time"])["time"].timetuple())
+    timeDiff = endTime - startTime
+
     intervals = [900, 1800, 3600, 7200, 14400, 28800, 86400, 259200, 604800, 1209600, 2419200]
     intervalSize = findFirstLargerOrEqual(timeDiff/15, intervals)
 
