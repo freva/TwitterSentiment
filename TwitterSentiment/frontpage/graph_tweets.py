@@ -8,16 +8,16 @@ def graphHashtags(hashtags, startTime, endTime):
                       for hashtag in hashtags
                       for t in Tweet.objects.filter(hashtag= hashtag, created_at__gt=startTime, created_at__lt=endTime)]
 
-    startTime = mktime(min(tweets, key=lambda l:l["time"])["time"].timetuple())
+    startTime = min(tweets, key=lambda l:l["time"])["time"]
     startTime -= startTime%3600
-    endTime = mktime(max(tweets, key=lambda l:l["time"])["time"].timetuple())
+    endTime = max(tweets, key=lambda l:l["time"])["time"]
     timeDiff = endTime - startTime
 
     intervals = [900, 1800, 3600, 7200, 14400, 28800, 86400, 259200, 604800, 1209600, 2419200]
     intervalSize = findFirstLargerOrEqual(timeDiff/25, intervals)
 
     numBins = int(ceil(timeDiff/intervalSize))
-    polar, labels = [[] for i in xrange(numBins)], [startTime+intervalSize*i for i in xrange(numBins)]
+    polar, labels = [[] for i in xrange(numBins)], [(startTime+intervalSize*i)*1000 for i in xrange(numBins)]
 
     for tweet in tweets:
         polar[(tweet["time"] - int(startTime))//intervalSize].append(tweet["polarity"])
