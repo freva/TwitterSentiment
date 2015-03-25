@@ -36,6 +36,11 @@
             <input type="text" name="start_time" id="start_time" value="" placeholder="Start time">
             <input type="text" name="end_time" id="end_time" value="" placeholder="End time">
 
+            <select id="displayType">
+                <option value="map">Map</option>
+                <option value="chart">Chart</option>
+		    </select>
+
             <button onclick="searchTweets()" id="search-button" type="button">Search</button>
         </form>
 
@@ -55,10 +60,8 @@
                 }
             });
         });
-    });
 
 
-    $(document).ready(function() {
         ajaxGet('/get_tokens/', function(response) {
             $("#search-field").tokenInput(response, {
                 resultsLimit: 10,
@@ -66,52 +69,9 @@
                 placeholderText: "#Hashtag"
             });
         });
-    });
 
 
-    function searchTweets() {
-        var term = $('#search-field').val();
-        var startTime = $('#start_time').val();
-        var endTime = $('#end_time').val();
-
-        if (term.length == 0) {
-            if (symbols) symbols.remove();
-            return;
-        }
-
-        $('#loading').show();
-        $("#search-button").prop('disabled', true);
-
-        ajaxPost('/get_hashtag/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
-            crimeCities = response.results;
-            scale = kartograph.scale.log(crimeCities, "count");
-
-            if (symbols) symbols.remove();
-            symbols = map.addSymbols({
-                type: kartograph.PieChart,
-                data: crimeCities,
-                colors: ['#fc575e', '#ffff00', '#7ca668'],
-                border: "#fff",
-                location: function(d) { return [d.lng, d.lat] },
-                ids: function(d) { return d.ids; },
-                values: function(d) { return d.polarity; },
-                radius: function(d) { return 3+scale(d.count)*maxRad; },
-                titles: function(d) {
-                    var desc = [];
-                    for(var i=0; i<d.polarity.length; i++) desc.push(Math.floor(d.polarity[i]) + " out of " + d.count);
-                    return desc;
-                }
-            });
-
-            $('#loading').hide();
-            $("#search-button").prop('disabled', false);
-            console.log(symbols);
-        });
-    }
-
-    jQuery(function(){
-		var minDateStr = "01/01/2015 00:00", maxDateStr = "31/12/2015 23:59";
-
+        var minDateStr = "01/01/2015 00:00", maxDateStr = "31/12/2015 23:59";
 		$('#start_time').val(minDateStr);
 		$('#end_time').val(maxDateStr);
 
@@ -128,7 +88,133 @@
 			closeOnDateSelect: true,
 			dayOfWeekStart: 1
 		});
-	});
+
+
+
+        $('#chart').highcharts({
+			chart: {
+				zoomType: 'xy'
+			},
+			title: {
+				text: 'Tweet frequency and polarity history'
+			},
+			xAxis: [{
+				categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+					'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				crosshair: true
+			}],
+			yAxis: [{ // Primary yAxis
+				labels: {
+					format: '{value}°C',
+					style: {
+						color: Highcharts.getOptions().colors[2]
+					}
+				},
+				title: {
+					text: 'Temperature',
+					style: {
+						color: Highcharts.getOptions().colors[2]
+					}
+				},
+				opposite: true
+
+			}, { // Secondary yAxis
+				gridLineWidth: 0,
+				title: {
+					text: 'Rainfall',
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					}
+				},
+				labels: {
+					format: '{value} mm',
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					}
+				}
+
+			}],
+			tooltip: {
+				shared: true
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'left',
+				x: 80,
+				verticalAlign: 'top',
+				y: 55,
+				floating: true,
+				backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+			},
+			series: [{
+				name: 'Rainfall',
+				type: 'column',
+				yAxis: 1,
+				data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+				tooltip: {
+					valueSuffix: ' mm'
+				}
+
+			},
+			{
+				name: 'Temperature',
+				type: 'spline',
+				data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+				tooltip: {
+					valueSuffix: ' °C'
+				}
+			}]
+		});
+   });
+
+
+    function searchTweets() {
+        var term = $('#search-field').val();
+        var startTime = $('#start_time').val();
+        var endTime = $('#end_time').val();
+
+        if (term.length == 0) {
+            if (symbols) symbols.remove();
+            return;
+        }
+
+        $('#loading').show();
+        $("#search-button").prop('disabled', true);
+
+        var displayType =  $('#displayType').find(":selected").text();
+        if(displayType == "map") {
+            $("#chart").hide();
+            $("#map").show();
+
+            ajaxPost('/get_hashtag/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
+                crimeCities = response.results;
+                scale = kartograph.scale.log(crimeCities, "count");
+
+                if (symbols) symbols.remove();
+                symbols = map.addSymbols({
+                    type: kartograph.PieChart,
+                    data: crimeCities,
+                    colors: ['#fc575e', '#ffff00', '#7ca668'],
+                    border: "#fff",
+                    location: function(d) { return [d.lng, d.lat] },
+                    ids: function(d) { return d.ids; },
+                    values: function(d) { return d.polarity; },
+                    radius: function(d) { return 3+scale(d.count)*maxRad; },
+                    titles: function(d) {
+                        var desc = [];
+                        for(var i=0; i<d.polarity.length; i++) desc.push(Math.floor(d.polarity[i]) + " out of " + d.count);
+                        return desc;
+                    }
+                });
+
+                $('#loading').hide();
+                $("#search-button").prop('disabled', false);
+            });
+        } else {
+            $("#chart").show();
+            $("#map").hide();
+        }
+    }
 
 
 	function displayTweets(location, tweetIDs, typeID) {
@@ -159,8 +245,11 @@
     </script>
 
 	<div style="position:relative">
-        <div id="loading"></div>
-		<div id="map"></div>
+        <div id="container">
+			<div id="loading"></div>
+			<div id="map"></div>
+			<div id="chart"></div>
+		</div>
 	</div>
 </div>
 
