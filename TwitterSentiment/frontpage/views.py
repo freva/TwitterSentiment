@@ -29,18 +29,18 @@ def get_hashtag(request):
 
 @ajax
 def search_hashtag(request):
-    query = request.GET.get('q')
+    query = request.GET.get('q', '')
 
     out = [{"name": label, "id": ','.join(load_cases.CASES[label])} for label in load_cases.CASES.keys() if query in label]
     out += [{"name": "#" + hashtag, "id": hashtag}
                     for label in load_cases.CASES.keys() for hashtag in load_cases.CASES[label] if query in hashtag]
-    return out
+    return [query, out]
 
 
 @ajax
 def graph_hashtag(request):
-    hashtags = list(set(request.POST.get('hashtag').split(",")))
-    startTime = datetime.datetime.strptime(request.POST.get('startTime'), "%d/%m/%Y %H:%M")
-    endTime = datetime.datetime.strptime(request.POST.get('endTime'), "%d/%m/%Y %H:%M")
+    hashtags = list(set(request.GET.get('hashtag', '').split(",")))
+    startTime = datetime.datetime.strptime(request.GET.get('from', ''), "%d/%m/%Y %H:%M")
+    endTime = datetime.datetime.strptime(request.GET.get('to', ''), "%d/%m/%Y %H:%M")
 
-    return hashtags
+    return [hashtags, startTime, endTime]
