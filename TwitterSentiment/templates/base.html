@@ -198,14 +198,14 @@
             $("#map").hide();
 
             ajaxPost('/get_graph/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
-                console.log(response);
+                $("#chart").show();
+
                 chartOptions.series = response["yAxis"];
                 chartOptions.xAxis = response["xAxis"];
                 new Highcharts.Chart(chartOptions);
 
                 $('#loading').hide();
                 $("#search-button").prop('disabled', false);
-                $("#chart").show();
             });
         }
     }
@@ -215,7 +215,6 @@
 		var typeClasses = ["negative", "neutral", "positive"];
 		var locationAddress = "the middle of no-where...";
 
-        console.log(tweetIDs);
 		new google.maps.Geocoder().geocode({'latLng': new google.maps.LatLng(location.lat, location.lon)}, function(results, status) {
 			$("#tweets").html("");
             if (status == google.maps.GeocoderStatus.OK && results.length > 2)
