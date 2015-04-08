@@ -111,26 +111,18 @@
 
 			}, {
 				gridLineWidth: 0,
+				labels: {
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					}
+				},
 				title: {
 					text: 'Number of tweets',
 					style: {
 						color: Highcharts.getOptions().colors[0]
 					}
-				},
-				labels: {
-					style: {
-						color: Highcharts.getOptions().colors[0]
-					}
 				}
-
-			}, {
-                type: 'arearange',
-                lineWidth: 0,
-                linkedTo: ':previous',
-                color: Highcharts.getOptions().colors[0],
-                fillOpacity: 0.3,
-                zIndex: 0
-            }],
+			}],
 			tooltip: {
 				shared: true,
 				formatter: function() {
