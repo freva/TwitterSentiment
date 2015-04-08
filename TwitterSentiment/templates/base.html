@@ -167,7 +167,7 @@
         var displayType =  $('#displayType').find(":selected").val();
         if(displayType == "map") {
             $("#chart").hide();
-            $("#map").show();
+            $("#map").hide();
 
             ajaxPost('/get_hashtag/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
                 crimeCities = response.results;
@@ -192,11 +192,11 @@
 
                 $('#loading').hide();
                 $("#search-button").prop('disabled', false);
+                $("#map").show();
             });
         } else {
-            $("#chart").show();
+            $("#chart").hide();
             $("#map").hide();
-
 
             ajaxPost('/get_graph/', {'hashtag':term, 'startTime':startTime, 'endTime':endTime}, function(response) {
                 console.log(response);
@@ -206,6 +206,7 @@
 
                 $('#loading').hide();
                 $("#search-button").prop('disabled', false);
+                $("#chart").show();
             });
         }
     }
