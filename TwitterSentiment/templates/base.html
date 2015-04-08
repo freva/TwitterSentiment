@@ -95,6 +95,19 @@
 				text: 'Tweet frequency and polarity history'
 			},
 			yAxis: [{
+				gridLineWidth: 0,
+				labels: {
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					}
+				},
+				title: {
+					text: 'Frequency',
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					}
+				}
+            }, {
 				labels: {
 				    format: '{value:.2f}',
 					style: {
@@ -108,19 +121,6 @@
 					}
 				},
 				opposite: true
-            }, {
-				gridLineWidth: 0,
-				labels: {
-					style: {
-						color: Highcharts.getOptions().colors[1]
-					}
-				},
-				title: {
-					text: 'Frequency',
-					style: {
-						color: Highcharts.getOptions().colors[1]
-					}
-				}
             }],
 			tooltip: {
 				shared: true,
