@@ -26,14 +26,9 @@ def graphHashtags(hashtags, startTime, endTime):
         polar[index if index < numBins else -1].append(tweet["polarity"])
 
 
-    averages = [sum(pol)/len(pol) if len(pol)>0 else 0 for pol in polar]
-    sumOfSquares = [sum([pow(i-averages[avgIndex], 2)/len(polar[avgIndex]) if len(polar[avgIndex]) else 0 for i in polar[avgIndex]]) for avgIndex in xrange(len(averages))]
-    confIntSize = [1.96*pow(sumOfSquares[i]/len(polar[i]) if len(polar[i]) else 0, 0.5) for i in xrange(len(sumOfSquares))]
-
     xAxis = {"categories": labels, "labels": {"format": '{value:%e %b %H:%M}'}}
-    yAxis = [{"name": "Polarity", "type": "spline", "data": averages},
-        {"name": "Frequency", "type": "column", "yAxis": 1, "data": [len(pol) for pol in polar]},
-        {"name": "Conf. int.", "type": "arearange", "yAxis": 2, "data": [[averages[i]-confIntSize[i], averages[i]+confIntSize[i]] for i in xrange(len(averages))]}]
+    yAxis = [{"name": "Polarity", "type": "spline", "data": [sum(pol)/len(pol) if len(pol)>0 else 0 for pol in polar]},
+           {"name": "Frequency", "type": "column", "yAxis": 1, "data": [len(pol) for pol in polar]}]
 
     return {"xAxis": xAxis, "yAxis": yAxis}
 
