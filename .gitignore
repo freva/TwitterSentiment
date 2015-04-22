@@ -10,6 +10,7 @@ venv
 tweets.json
 
 *dev.py
+dumps/
 
 
 # Distribution / packaging
